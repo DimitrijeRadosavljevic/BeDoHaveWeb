@@ -23,6 +23,6 @@ export class AuthService extends BaseApiService {
   }
 
   identify(): Observable<ExpressResponse> {
-    return this.http.get<ExpressResponse>(this.apiAuthUrl + '/users/user');
+    return this.http.get<ExpressResponse>(this.apiAuthUrl + '/identify');
   }
 }

@@ -1,11 +1,16 @@
 import { NgModule } from '@angular/core';
 import {Routes, RouterModule, PreloadAllModules} from '@angular/router';
 
+import {AuthGuard} from './_shared/guards/auth.guard';
+
+import {WelcomeComponent} from './_shared/components/welcome/welcome.component';
+
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   loadChildren: () => import('./auth/auth.module').then( m => m.AuthModule)
-  // }
+  {
+    path: 'welcome',
+    canActivate: [AuthGuard],
+    component: WelcomeComponent
+  }
 ];
 
 @NgModule({

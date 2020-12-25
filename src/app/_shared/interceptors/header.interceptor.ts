@@ -14,11 +14,14 @@ export class HeaderInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
-    request = request.clone({
-      setHeaders: {
-        Authorization: `Bearer ${this.getToken()}`
-      }
-    });
+    const token = this.getToken();
+    if (token) {
+      request = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${this.getToken()}`
+        }
+      });
+    }
 
     return next.handle(request);
   }
