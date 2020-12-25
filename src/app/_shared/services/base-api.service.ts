@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class BaseApiServiceService {
+export class BaseApiService {
   protected apiAuthUrl: string;
   protected apiUrl: string;
 

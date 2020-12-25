@@ -1,0 +1,51 @@
+<div class="container-fluid d-flex flex-column justify-content-between h-100">
+  <nav class="navbar border-bottom">
+    <div class="container-fluid justify-content-center">
+      <span class="navbar-brand mb-0 h1">BeDoHave</span>
+    </div>
+  </nav>
+
+  <div class="container h-100">
+    <div class="row justify-content-center m-login">
+      <div class="col-6">
+        <h1 class="text-primary"><b>LOGIN</b></h1>
+      </div>
+    </div>
+    <div class="row justify-content-center m-form" *ngIf="formActive">
+      <div class="col-6">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <input type="email" [ngClass]="{'form-control': true, 'is-invalid': form.controls.email.invalid && form.controls.email.touched}" id="email" formControlName="email" placeholder="Email">
+            <div class="invalid-feedback">
+              Invalid email
+            </div>
+          </div>
+          <div class="mb-3">
+            <input type="password" [ngClass]="{'form-control': true, 'is-invalid': form.controls.password.invalid && form.controls.password.touched}" id="password" formControlName="password" placeholder="Password">
+            <div class="invalid-feedback">
+              Invalid password
+            </div>
+          </div>
+          <div class="row m-button">
+            <div class="col-12 text-center">
+              <button type="submit" class="btn-primary mb-3">Login</button>
+              <p>Don't have account? <u>Register here!</u></p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row justify-content-center mt-5" *ngIf="!formActive">
+      <div class="col-1">
+        <div class="spinner-border text-primary" role="status">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar border-top">
+    <div class="container-fluid justify-content-center">
+      <p>Developed & designed by SabaliSoft @2020</p>
+    </div>
+  </nav>
+</div>
