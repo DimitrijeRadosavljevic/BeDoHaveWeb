@@ -24,11 +24,11 @@ export class AuthEffects implements OnInitEffects {
       return this.authService.identify()
         .pipe(
           map(response => {
-            this.router.navigate(['/welcome']);
+            this.router.navigate(['welcome']);
             return AuthActions.loginSuccess({data: response.data});
           }),
           catchError((error) => {
-            this.router.navigate(['/login']);
+            //this.router.navigate(['/login']);
             return of(AuthActions.loginFailure({error}));
           })
         );
@@ -60,8 +60,10 @@ export class AuthEffects implements OnInitEffects {
     mergeMap((action) => this.authService.register(action.data)
       .pipe(
         map(response => {
-          // localStorage.setItem('token', response.token);
-          // this.router.navigate(['/tabs']).then();
+          if(response.token != null){
+            localStorage.setItem('token', response.token);
+          }
+          this.router.navigate(['/welcome']).then();
           return AuthActions.registerSuccess({data: response.data});
         }),
         catchError((error) => of(AuthActions.registerFailure({error})))
