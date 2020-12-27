@@ -12,6 +12,7 @@ import { AuthEffects } from './store/auth/auth.effects';
 import {AuthModule} from './auth/auth.module';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {HeaderInterceptor} from './_shared/interceptors/header.interceptor';
+import {EssayModule} from './essay/essay.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {HeaderInterceptor} from './_shared/interceptors/header.interceptor';
     EffectsModule.forFeature([AuthEffects]),
 
     SharedModule,
-    AuthModule
+    AuthModule,
+    EssayModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }
