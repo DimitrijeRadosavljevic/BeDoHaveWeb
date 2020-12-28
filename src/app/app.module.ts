@@ -1,3 +1,4 @@
+import { ThemeModule } from './theme/theme.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -29,7 +30,8 @@ import {EssayModule} from './essay/essay.module';
 
     SharedModule,
     AuthModule,
-    EssayModule
+    EssayModule,
+    ThemeModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }
