@@ -1,74 +1,70 @@
-<div class="container-fluid d-flex flex-column justify-content-between h-100">
-    <nav class="navbar border-bottom">
-      <div class="container-fluid justify-content-center">
-        <span class="navbar-brand mb-0 h1">BeDoHave</span>
-      </div>
-    </nav>
-  
-    <div class="container h-100">
-      <div class="row justify-content-center m-login">
-        <div class="col-6">
-          <h1 class="text-primary"><b>REGISTER</b></h1>
-        </div>
-      </div>
-      <div class="row justify-content-center m-form" *ngIf="formActive">
-        <div class="col-6">
-          <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <div class="mb-3">
-                <input type="text" [ngClass]="{'form-control': true, 'is-invalid': form.controls.name.invalid && form.controls.name.touched}" id="name" formControlName="name" placeholder="Name">
-                <div class="invalid-feedback">
-                  Invalid Name
-                </div>
-            </div>
-            <div class="mb-3">
-                <input type="text" [ngClass]="{'form-control': true, 'is-invalid': form.controls.surname.invalid && form.controls.surname.touched}" id="surname" formControlName="surname" placeholder="Surname">
-                <div class="invalid-feedback">
-                  Invalid Surname
-                </div>
-            </div>
-            <div class="mb-3">
-              <input type="email" [ngClass]="{'form-control': true, 'is-invalid': form.controls.email.invalid && form.controls.email.touched}" id="email" formControlName="email" placeholder="Email">
-              <div class="invalid-feedback">
-                Invalid email
-              </div>
-            </div>
-            <div class="mb-3">
-              <input type="password" [ngClass]="{'form-control': true, 'is-invalid': form.controls.password.invalid && form.controls.password.touched}" id="password" formControlName="password" placeholder="Password">
-              <div class="invalid-feedback">
-                Invalid password
-              </div>
-            </div>
-            <div class="mb-3">
-              <input type="password" [ngClass]="{'form-control': true, 'is-invalid': (form.controls.confirmPassword.invalid && form.controls.confirmPassword.touched) || passwordNotMatch }" id="confirmPassword" formControlName="confirmPassword" placeholder="Confirm Password">
-              <div class="invalid-feedback">
-                Password do not match
-              </div>
-            </div>
-            <div class="row m-button">
-              <div class="col-12 text-center">
-                <button type="submit" class="btn-primary mb-3">Register</button>
-              </div>
-              <div class="col-12 text-center">
-                <div class="alert alert-danger" role="alert" *ngIf="error">
-                  {{ errorText }}
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="row justify-content-center mt-5" *ngIf="!formActive">
-        <div class="col-1">
-          <div class="spinner-border text-primary" role="status">
+<div class="container h-100">
+  <div class="row justify-content-center m-login">
+    <div class="col-6">
+      <h1 class="text-primary"><b>REGISTER</b></h1>
+    </div>
+  </div>
+  <div class="row justify-content-center m-form" *ngIf="formActive">
+    <div class="col-6">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <input type="text"
+                 [ngClass]="{'form-control': true, 'is-invalid': form.controls.name.invalid && form.controls.name.touched}"
+                 id="name" formControlName="name" placeholder="Name">
+          <div class="invalid-feedback">
+            Invalid Name
           </div>
         </div>
+        <div class="mb-3">
+          <input type="text"
+                 [ngClass]="{'form-control': true, 'is-invalid': form.controls.surname.invalid && form.controls.surname.touched}"
+                 id="surname" formControlName="surname" placeholder="Surname">
+          <div class="invalid-feedback">
+            Invalid Surname
+          </div>
+        </div>
+        <div class="mb-3">
+          <input type="email"
+                 [ngClass]="{'form-control': true, 'is-invalid': form.controls.email.invalid && form.controls.email.touched}"
+                 id="email" formControlName="email" placeholder="Email">
+          <div class="invalid-feedback">
+            Invalid email
+          </div>
+        </div>
+        <div class="mb-3">
+          <input type="password"
+                 [ngClass]="{'form-control': true, 'is-invalid': form.controls.password.invalid && form.controls.password.touched}"
+                 id="password" formControlName="password" placeholder="Password">
+          <div class="invalid-feedback">
+            Invalid password
+          </div>
+        </div>
+        <div class="mb-3">
+          <input type="password"
+                 [ngClass]="{'form-control': true, 'is-invalid': (form.controls.confirmPassword.invalid && form.controls.confirmPassword.touched) || passwordNotMatch }"
+                 id="confirmPassword" formControlName="confirmPassword" placeholder="Confirm Password">
+          <div class="invalid-feedback">
+            Password do not match
+          </div>
+        </div>
+        <div class="row m-button">
+          <div class="col-12 text-center">
+            <button type="submit" class="btn-primary mb-3">Register</button>
+          </div>
+          <div class="col-12 text-center">
+            <div class="alert alert-danger" role="alert" *ngIf="error">
+              {{ errorText }}
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-5" *ngIf="!formActive">
+    <div class="col-1">
+      <div class="spinner-border text-primary" role="status">
       </div>
     </div>
-  
-    <nav class="navbar border-top">
-      <div class="container-fluid justify-content-center">
-        <p>Developed & designed by SabaliSoft @2020</p>
-      </div>
-    </nav>
   </div>
-  
+</div>
+

@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { WelcomeCardComponent } from './components/welcome-card/welcome-card.component';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 
 @NgModule({
@@ -14,13 +15,15 @@ import { WelcomeCardComponent } from './components/welcome-card/welcome-card.com
     CommonModule,
     HttpClientModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NgxPaginationModule
 
   ],
   exports: [
     CommonModule,
     HttpClientModule,
     ReactiveFormsModule,
+    NgxPaginationModule,
 
     WelcomeComponent
   ]

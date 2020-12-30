@@ -10,6 +10,11 @@ const routes: Routes = [
     path: 'welcome',
     canActivate: [AuthGuard],
     component: WelcomeComponent
+  },
+  {
+    path: '',
+    redirectTo: 'welcome',
+    pathMatch: 'full'
   }
 ];
 

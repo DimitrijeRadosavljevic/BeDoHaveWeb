@@ -10,10 +10,11 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './store';
 import { AuthEffects } from './store/auth/auth.effects';
-import {AuthModule} from './auth/auth.module';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {HeaderInterceptor} from './_shared/interceptors/header.interceptor';
-import {EssayModule} from './essay/essay.module';
+
+import { AuthModule } from './auth/auth.module';
+import { EssayModule } from './essay/essay.module';
 
 @NgModule({
   declarations: [
