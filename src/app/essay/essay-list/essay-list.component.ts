@@ -27,15 +27,15 @@ export class EssayListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      // @ts-ignore
-      this.themeId = params.get('themeId');
-      this.initializeComponent();
-    });
+    this.initializeComponent();
   }
 
   private initializeComponent(): void {
-    this.fetchEssays();
+    this.route.paramMap.subscribe(params => {
+      // @ts-ignore
+      this.themeId = params.get('themeId');
+      this.fetchEssays();
+    });
   }
 
   private fetchEssays(): void {
