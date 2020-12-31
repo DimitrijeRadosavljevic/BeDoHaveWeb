@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Essay} from '../../_shared/models/essay';
 import {PaginatePipeArgs} from 'ngx-pagination/dist/paginate.pipe';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -11,7 +11,7 @@ import {EssayService} from '../essay.service';
 })
 export class EssayListComponent implements OnInit {
   public essays: Essay[];
-  private themeId: number;
+  private themeId: string;
 
   public paginator: any;
   public paginationConfig: PaginatePipeArgs = {
@@ -19,6 +19,7 @@ export class EssayListComponent implements OnInit {
     itemsPerPage: 10,
     currentPage: 1
   };
+  public loading: number = 0;
 
   constructor(private essayService: EssayService,
               private router: Router,
@@ -26,8 +27,9 @@ export class EssayListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParamMap.subscribe(params => {
-      this.themeId = parseInt(params.get('themeId'));
+    this.route.paramMap.subscribe(params => {
+      // @ts-ignore
+      this.themeId = params.get('themeId');
       this.initializeComponent();
     });
   }
@@ -37,16 +39,17 @@ export class EssayListComponent implements OnInit {
   }
 
   private fetchEssays(): void {
-    this.essayService.getEssays(this.themeId).subscribe(
+    this.loading++;
+    this.essayService.getEssays(this.themeId, this.paginationConfig.itemsPerPage, this.paginationConfig.currentPage).subscribe(
       result => {
         // this.paginator = result.data;
-        // this.paginationConfig.totalItems = result.data.total;
-        console.log(result)
-        // this.essays = result.data.data;
+        this.paginationConfig.totalItems = result.data.total;
+        this.essays = result.data.essays as Essay[];
       },
       error => {
-          this.router.navigate(['/error']);
-      }
+        this.router.navigate(['/error']);
+      },
+      () => this.loading--
     );
   }
 

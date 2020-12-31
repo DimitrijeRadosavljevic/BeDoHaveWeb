@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { BaseApiService } from '../_shared/services/base-api.service';
@@ -11,8 +12,14 @@ import { Essay } from '../_shared/models/essay';
 })
 export class EssayService extends BaseApiService {
 
-  public getEssays(themeId: number): Observable<ExpressResponse> {
-    return this.http.get<ExpressResponse>(`${this.apiUrl}/themes/${themeId}/essays`);
+  public getEssays(themeId: string, perPage?: number | string, page?: number | string): Observable<ExpressResponse> {
+    let params = new HttpParams();
+
+    params = (page ? params.set('page', page.toString()) : params);
+
+    params = (perPage ? params.set('perPage', perPage.toString()) : params);
+
+    return this.http.get<ExpressResponse>(`${this.apiUrl}/themes/${themeId}/essays`, { params });
   }
 
   public getEssay(essayId: number): Observable<ExpressResponse> {

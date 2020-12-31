@@ -31,7 +31,6 @@ import { EssayModule } from './essay/essay.module';
 
     SharedModule,
     AuthModule,
-    EssayModule,
     ThemeModule
   ],
   providers: [

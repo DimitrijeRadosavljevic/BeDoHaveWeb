@@ -12,6 +12,10 @@ const routes: Routes = [
     component: WelcomeComponent
   },
   {
+    path: 'essays',
+    loadChildren: () => import('./essay/essay.module').then(m => m.EssayModule)
+  },
+  {
     path: '',
     redirectTo: 'welcome',
     pathMatch: 'full'

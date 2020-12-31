@@ -8,13 +8,19 @@ import {EssayEditorComponent} from './essay-editor/essay-editor.component';
 
 const routes: Routes = [
   {
-    path: 'themes/:themeId/essays',
+    path: 'create',
     canActivate: [AuthGuard],
-    children: [
-      { path: 'create', component: EssayEditorComponent },
-      { path: ':essayId', component: EssayDetailComponent },
-      { path: ':essayId/edit', component: EssayEditorComponent }
-    ]
+    component: EssayEditorComponent
+  },
+  {
+    path: ':essayId',
+    canActivate: [AuthGuard],
+    component: EssayDetailComponent
+  },
+  {
+    path: ':essayId/edit',
+    canActivate: [AuthGuard],
+    component: EssayEditorComponent
   }
 ];
 

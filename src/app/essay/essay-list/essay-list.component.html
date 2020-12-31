@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row mt-4">
+    <div class="col-12">
+      <h2 class="pl-3 mb-3">Essays</h2>
+      <ng-container *ngIf="loading == 0 && essays && essays.length > 0">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" *ngFor="let essay of essays | paginate: paginationConfig">
+            <h4 class="mb-0 d-flex justify-content-between">
+              {{ essay.title }}
+              <span class="badge">{{ essay.date }}</span>
+            </h4>
+              <p class="cut-text font-italic mb-0">{{ essay.content }}</p>
+          </li>
+        </ul>
+        <div class="row mt-3">
+          <div class="col-12 text-center">
+            <pagination-controls [id]="paginationConfig.id" (pageChange)="onPageChange($event)"></pagination-controls>
+          </div>
+        </div>
+      </ng-container>
+      <p *ngIf="loading == 0 && essays && essays.length == 0" class="text-center">You don't have any essays yet</p>
+      <div class="row justify-content-center mt-5" *ngIf="loading > 0">
+        <div class="col-1">
+          <div class="spinner-border text-primary" role="status">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
