@@ -15,7 +15,10 @@ import {NgxPaginationModule} from 'ngx-pagination';
     CommonModule,
     HttpClientModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      timeOut: 2000,
+      positionClass: 'toast-top-right',
+    }),
     NgxPaginationModule
 
   ],

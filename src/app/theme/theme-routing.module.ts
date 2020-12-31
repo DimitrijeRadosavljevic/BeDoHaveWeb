@@ -6,6 +6,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { EssayEditorComponent } from '../essay/essay-editor/essay-editor.component';
+
 
 const routes: Routes = [
   {

@@ -12,7 +12,7 @@ const routes: Routes = [
     component: WelcomeComponent
   },
   {
-    path: 'essays',
+    path: 'themes/:themeId/essays',
     loadChildren: () => import('./essay/essay.module').then(m => m.EssayModule)
   },
   {

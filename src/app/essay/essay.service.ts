@@ -22,19 +22,19 @@ export class EssayService extends BaseApiService {
     return this.http.get<ExpressResponse>(`${this.apiUrl}/themes/${themeId}/essays`, { params });
   }
 
-  public getEssay(essayId: number): Observable<ExpressResponse> {
-    return this.http.get<ExpressResponse>(`${this.apiUrl}/essays/${essayId}`);
+  public getEssay(essayId: string): Observable<ExpressResponse<Essay>> {
+    return this.http.get<ExpressResponse<Essay>>(`${this.apiUrl}/essays/${essayId}`);
   }
 
-  public postEssay(themeId: number, essay: Essay): Observable<ExpressResponse> {
-    return this.http.post<ExpressResponse>(`${this.apiUrl}/themes/${themeId}/essays`, essay);
+  public postEssay(themeId: string, essay: Essay): Observable<ExpressResponse<Essay>> {
+    return this.http.post<ExpressResponse<Essay>>(`${this.apiUrl}/themes/${themeId}/essays`, essay);
   }
 
-  public putEssay(essay: Essay): Observable<ExpressResponse> {
-    return this.http.put<ExpressResponse>(`${this.apiUrl}/essays/${essay.id}`, essay);
+  public putEssay(essay: Essay): Observable<ExpressResponse<Essay>> {
+    return this.http.put<ExpressResponse<Essay>>(`${this.apiUrl}/essays/${essay.id}`, essay);
   }
 
-  public deleteEssay(essayId: number): Observable<ExpressResponse> {
-    return this.http.delete<ExpressResponse>(`${this.apiUrl}/essays/${essayId}`);
+  public deleteEssay(essayId: string): Observable<ExpressResponse<null>> {
+    return this.http.delete<ExpressResponse<null>>(`${this.apiUrl}/essays/${essayId}`);
   }
 }
