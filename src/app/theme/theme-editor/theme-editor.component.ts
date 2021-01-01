@@ -9,7 +9,6 @@ import { ThemeService } from '../theme.service';
 import { TagService } from '../../_shared/services/tag.service';
 import { Theme } from '../../_shared/models/theme';
 import { Tag } from '../../_shared/models/tag';
-import {ListItem} from 'ng-multiselect-dropdown/multiselect.model';
 
 @Component({
   selector: 'app-theme-editor',
@@ -57,7 +56,8 @@ export class ThemeEditorComponent implements OnInit {
       id: [theme ? theme.id : null],
       title: [theme ? theme.title : null, Validators.required],
       description: [theme ? theme.description : null, Validators.required],
-      date: [theme ? new Date(theme.date).getDate() : new Date().getDate(), Validators.required]
+      date: [theme ? new Date(theme.date).getDate() : new Date().getDate(), Validators.required],
+      reminder: [theme ? theme.reminder : 'never', Validators.required]
     });
     this.formActive = true;
   }

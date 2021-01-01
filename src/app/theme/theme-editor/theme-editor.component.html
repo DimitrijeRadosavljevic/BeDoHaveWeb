@@ -35,8 +35,8 @@
                 </div>
               </div>
 
-              <div class="row mb-4">
-                <div class="col-12">
+              <div class="row mb-4 flex-row align-items-end">
+                <div class="col-9">
                   <ng-multiselect-dropdown
                     [data]="tags"
                     [settings]="tagDropdownSettings"
@@ -46,6 +46,18 @@
                   >
 
                   </ng-multiselect-dropdown>
+                </div>
+                <div class="col-3">
+                  <label for="reminder">Reminder</label>
+                  <select class="form-select w-100" id="reminder" formControlName="reminder">
+                    <option value="never">Never</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="every-month">Every month</option>
+                    <option value="every-third-month">Every third month</option>
+                    <option value="every-six-months">Every six months</option>
+                    <option value="yearly">Yearly</option>
+                  </select>
                 </div>
               </div>
 

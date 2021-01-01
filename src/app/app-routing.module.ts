@@ -4,6 +4,7 @@ import {Routes, RouterModule, PreloadAllModules} from '@angular/router';
 import {AuthGuard} from './_shared/guards/auth.guard';
 
 import {WelcomeComponent} from './_shared/components/welcome/welcome.component';
+import {EssayListComponent} from './essay/essay-list/essay-list.component';
 
 const routes: Routes = [
   {
@@ -15,10 +16,10 @@ const routes: Routes = [
     path: 'themes',
     loadChildren: () => import('./theme/theme.module').then(m => m.ThemeModule)
   },
-  // {
-  //   path: 'themes/:themeId/essays',
-  //   loadChildren: () => import('./essay/essay.module').then(m => m.EssayModule)
-  // },
+  {
+    path: 'themes/:themeId/essays',
+    loadChildren: () => import('./essay/essay.module').then(m => m.EssayModule)
+  },
   {
     path: '',
     redirectTo: 'login',

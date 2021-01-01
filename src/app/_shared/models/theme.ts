@@ -5,5 +5,6 @@ export class Theme {
     title: string;
     description: string;
     date: Date;
+    reminder: string;
     tags: Tag[];
 }
