@@ -26,6 +26,7 @@
     "bootstrap": "^4.5.3",
     "bootstrap-icons": "^1.2.2",
     "jquery": "^3.5.1",
+    "ng-multiselect-dropdown": "^0.2.14",
     "ngx-pagination": "^5.0.0",
     "ngx-quill": "^13.0.1",
     "ngx-toastr": "^13.2.0",

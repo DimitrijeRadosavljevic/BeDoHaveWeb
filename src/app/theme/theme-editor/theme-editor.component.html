@@ -34,6 +34,21 @@
                   </div>
                 </div>
               </div>
+
+              <div class="row mb-4">
+                <div class="col-12">
+                  <ng-multiselect-dropdown
+                    [data]="tags"
+                    [settings]="tagDropdownSettings"
+                    (onSelect)="tagSelected($event)"
+                    (onDeSelect)="tagDeSelected($event)"
+                    placeholder="Tags"
+                  >
+
+                  </ng-multiselect-dropdown>
+                </div>
+              </div>
+
               <div class="row mb-4">
                 <div class="col-12">
                   <textarea type="text"
