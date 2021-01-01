@@ -58,7 +58,6 @@ export class EssayEditorComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    console.log(this.form.controls.content);
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;

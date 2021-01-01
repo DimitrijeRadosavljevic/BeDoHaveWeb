@@ -1,1 +1,67 @@
-<p>theme-editor works!</p>
+<div class="container-fluid background h-100">
+  <div class="row">
+    <div class="col-12">
+      <div class="container">
+
+        <div class="row mt-4">
+          <div class="col-12 text-center">
+            <h1 class="d-inline">Create Theme</h1>
+          </div>
+        </div>
+
+        <div class="row mt-5">
+          <div class="col-12">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="formActive">
+              <div class="row mb-4">
+                <div class="col-6">
+                  <input type="text"
+                         [ngClass]="{'form-control': true, 'bg-transparent': true, 'is-invalid': form.controls.title.invalid && form.controls.title.touched}"
+                         id="email"
+                         formControlName="title"
+                         placeholder="Title"
+                  >
+                  <div class="invalid-feedback">
+                    Title is required
+                  </div>
+                </div>
+                <div class="col-6">
+                  <input type="date"
+                         [ngClass]="{'form-control': true, 'bg-transparent': true, 'is-invalid': form.controls.date.invalid && form.controls.date.touched}"
+                         id="date"
+                         formControlName="date">
+                  <div class="invalid-feedback">
+                    Title is required
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-4">
+                <div class="col-12">
+                  <textarea type="text"
+                            [ngClass]="{'form-control': true, 'is-invalid': form.controls.description.invalid && form.controls.description.touched}"
+                            id="description"
+                            formControlName="description"
+                            placeholder="Description..."
+                            style="opacity: 0.5"
+                            rows="10"
+                  ></textarea>
+                  <div class="invalid-feedback">
+                    Description is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-5">
+                <div class="col-12 text-center">
+                  <button type="submit" class="button bg-light">Create</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+

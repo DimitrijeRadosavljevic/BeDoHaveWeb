@@ -7,21 +7,23 @@ import { ToastrModule } from 'ngx-toastr';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { WelcomeCardComponent } from './components/welcome-card/welcome-card.component';
 import {NgxPaginationModule} from 'ngx-pagination';
+import {RouterModule} from '@angular/router';
 
 
 @NgModule({
   declarations: [WelcomeComponent, WelcomeCardComponent],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    ToastrModule.forRoot({
-      timeOut: 2000,
-      positionClass: 'toast-top-right',
-    }),
-    NgxPaginationModule
+    imports: [
+        CommonModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        ToastrModule.forRoot({
+            timeOut: 2000,
+            positionClass: 'toast-top-right',
+        }),
+        NgxPaginationModule,
+        RouterModule
 
-  ],
+    ],
   exports: [
     CommonModule,
     HttpClientModule,

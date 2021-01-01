@@ -30,8 +30,8 @@ import { EssayModule } from './essay/essay.module';
     EffectsModule.forFeature([AuthEffects]),
 
     SharedModule,
-    AuthModule,
-    ThemeModule
+    AuthModule
+    // ThemeModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }

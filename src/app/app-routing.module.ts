@@ -12,12 +12,16 @@ const routes: Routes = [
     component: WelcomeComponent
   },
   {
-    path: 'themes/:themeId/essays',
-    loadChildren: () => import('./essay/essay.module').then(m => m.EssayModule)
+    path: 'themes',
+    loadChildren: () => import('./theme/theme.module').then(m => m.ThemeModule)
   },
+  // {
+  //   path: 'themes/:themeId/essays',
+  //   loadChildren: () => import('./essay/essay.module').then(m => m.EssayModule)
+  // },
   {
     path: '',
-    redirectTo: 'welcome',
+    redirectTo: 'login',
     pathMatch: 'full'
   }
 ];
