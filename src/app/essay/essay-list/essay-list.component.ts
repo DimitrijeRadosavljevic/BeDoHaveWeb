@@ -16,9 +16,7 @@ import { Tag } from 'src/app/_shared/models/tag';
 export class EssayListComponent implements OnInit {
   public essays: Essay[];
   private themeId: string;
-  public theme: Theme = new Theme();
-  public tags: Tag[];
-  public tagsText: string="";
+
 
   public paginator: any;
   public paginationConfig: PaginatePipeArgs = {
@@ -43,30 +41,7 @@ export class EssayListComponent implements OnInit {
       // @ts-ignore
       this.themeId = params.get('themeId');
       this.fetchEssays();
-      this.fetchTheme();
-      this.fetchTags();
     });
-  }
-
-  fetchTheme() {
-    this.themeService.getTheme(this.themeId).subscribe(
-      response => {
-        this.theme = response.data 
-      },
-      error => { console.log(error) }
-    )
-  }
-
-  fetchTags() {
-    this.tagService.getTagsForTheme(this.themeId).subscribe(
-      result => {
-        this.tags = result.data; 
-        for(let i=0;i<this.tags.length;i++){
-          this.tagsText += " #" + this.tags[i].name;
-        }
-      },
-      error => { console.log(error) }
-    )
   }
 
   private fetchEssays(): void {

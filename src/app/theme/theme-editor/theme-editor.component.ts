@@ -92,6 +92,8 @@ export class ThemeEditorComponent implements OnInit {
         },
         () => this.loading--
       );
+    } else {
+      //TODO for edit
     }
   }
 

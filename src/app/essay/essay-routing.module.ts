@@ -8,10 +8,6 @@ import { EssayListComponent } from './essay-list/essay-list.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: EssayListComponent
-  },
-  {
     path: 'create',
     component: EssayEditorComponent
   },

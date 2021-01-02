@@ -7,6 +7,7 @@ import { ThemeEditorComponent } from './theme-editor/theme-editor.component';
 import { ThemeDetailComponent } from './theme-detail/theme-detail.component';
 
 import { ThemeRoutingModule } from './theme-routing.module';
+import { EssayModule } from '../essay/essay.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { ThemeRoutingModule } from './theme-routing.module';
   imports: [
     SharedModule,
     ThemeRoutingModule,
-    FormsModule
+    FormsModule,
+    EssayModule
   ]
 })
 export class ThemeModule { }

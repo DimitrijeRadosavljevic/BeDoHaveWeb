@@ -64,7 +64,7 @@ export class ThemeListComponent implements OnInit {
   }
 
   goToDetails(theme: Theme) {
-    this.router.navigate([`./themes/${theme.id}/essays`])
+    this.router.navigate([`./themes/${theme.id}`])
   }
 
   onDeleteTheme(theme: Theme) {

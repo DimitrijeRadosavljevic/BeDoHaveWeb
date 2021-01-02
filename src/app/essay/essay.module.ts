@@ -16,6 +16,9 @@ import {QuillModule} from 'ngx-quill';
 
     EssayRoutingModule,
     QuillModule.forRoot()
+  ],
+  exports: [
+    EssayListComponent
   ]
 })
 export class EssayModule {
