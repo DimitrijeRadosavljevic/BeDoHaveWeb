@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
+import { NgModel } from '@angular/forms'
 
 import { ThemeService } from '../theme.service';
 import { TagService } from '../../_shared/services/tag.service';
@@ -21,6 +22,11 @@ export class ThemeEditorComponent implements OnInit {
   public tagNameFilter: FormControl;
   public tags: Tag[];
   public selectedTags: Tag[] = new Array();
+  public useForCreate = true;
+  public themeForUpdate: Theme;
+  public textButton: string = "Create";
+  public mainText: string = "Create Theme"
+  public selectedItems: Tag[] = [];
 
   public loading: number = 0;
 
@@ -46,9 +52,11 @@ export class ThemeEditorComponent implements OnInit {
   }
 
   private initializeComponent(): void {
+    this.getActivatedRoute();
     this.buildFilter();
     this.fetchTags();
-    this.buildForm();
+    if(this.useForCreate == true)
+      this.buildForm();
   }
 
   private buildForm(theme?: Theme): void {
@@ -68,20 +76,58 @@ export class ThemeEditorComponent implements OnInit {
       return;
     }
 
-    const theme: Theme = this.form.value as Theme;
-    theme.tags = this.selectedTags;
+    if(this.useForCreate == true) {
 
-    this.loading++;
-    this.themeService.postTheme(this.form.value as Theme).subscribe(
+      const theme: Theme = this.form.value as Theme;
+      theme.tags = this.selectedTags;
+
+      this.loading++;
+      this.themeService.postTheme(this.form.value as Theme).subscribe(
+        result => {
+          this.toastrService.success('Theme successfully created!');
+          this.router.navigate([`/themes/${result.data.id}`]);
+        },
+        error => {
+          this.toastrService.error('Error has occurred, try again later');
+        },
+        () => this.loading--
+      );
+    }
+  }
+
+  getActivatedRoute() {
+    let url = this.route.toString();
+    if(url.includes('edit')) {
+      this.useForCreate = false;
+      let themeId = this.route.snapshot.paramMap.get('themeId');
+
+      this.fetchTheme(themeId);
+      this.textButton = "Edit";
+      this.mainText = "Edit Theme"
+    }
+    else this.useForCreate = true;
+  }
+
+  fetchTheme(themeId:string | null) {
+
+    this.themeService.getTheme(themeId).subscribe(
       result => {
-        this.toastrService.success('Theme successfully created!');
-        this.router.navigate([`/themes/${result.data.id}`]);
+        this.themeForUpdate = result.data;
+        this.fetchTagsForTheme(themeId);
+        this.buildForm(this.themeForUpdate);
       },
-      error => {
-        this.toastrService.error('Error has occurred, try again later');
+      error => { console.log(error) }
+    )
+  }
+
+  fetchTagsForTheme(themeId:string | null) {
+
+    this.tagService.getTagsForTheme(themeId).subscribe(
+      result => {
+        this.selectedItems = result.data
       },
-      () => this.loading--
-    );
+      error => { console.log(error) }
+    )
   }
 
   private fetchTags(): void {
@@ -94,6 +140,8 @@ export class ThemeEditorComponent implements OnInit {
       }
     );
   }
+
+
 
   private buildFilter(): void {
     this.tagNameFilter = new FormControl('');

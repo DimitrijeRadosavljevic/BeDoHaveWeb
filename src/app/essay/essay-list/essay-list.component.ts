@@ -3,6 +3,10 @@ import {Essay} from '../../_shared/models/essay';
 import {PaginatePipeArgs} from 'ngx-pagination/dist/paginate.pipe';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EssayService} from '../essay.service';
+import { Theme } from 'src/app/_shared/models/theme';
+import { ThemeService } from 'src/app/theme/theme.service';
+import { TagService } from 'src/app/_shared/services/tag.service';
+import { Tag } from 'src/app/_shared/models/tag';
 
 @Component({
   selector: 'app-essay-list',
@@ -12,6 +16,9 @@ import {EssayService} from '../essay.service';
 export class EssayListComponent implements OnInit {
   public essays: Essay[];
   private themeId: string;
+  public theme: Theme = new Theme();
+  public tags: Tag[];
+  public tagsText: string="";
 
   public paginator: any;
   public paginationConfig: PaginatePipeArgs = {
@@ -23,8 +30,9 @@ export class EssayListComponent implements OnInit {
 
   constructor(private essayService: EssayService,
               private router: Router,
-              private route: ActivatedRoute) {
-  }
+              private route: ActivatedRoute,
+              private themeService: ThemeService,
+              private tagService: TagService) {}
 
   ngOnInit(): void {
     this.initializeComponent();
@@ -35,7 +43,30 @@ export class EssayListComponent implements OnInit {
       // @ts-ignore
       this.themeId = params.get('themeId');
       this.fetchEssays();
+      this.fetchTheme();
+      this.fetchTags();
     });
+  }
+
+  fetchTheme() {
+    this.themeService.getTheme(this.themeId).subscribe(
+      response => {
+        this.theme = response.data 
+      },
+      error => { console.log(error) }
+    )
+  }
+
+  fetchTags() {
+    this.tagService.getTagsForTheme(this.themeId).subscribe(
+      result => {
+        this.tags = result.data; 
+        for(let i=0;i<this.tags.length;i++){
+          this.tagsText += " #" + this.tags[i].name;
+        }
+      },
+      error => { console.log(error) }
+    )
   }
 
   private fetchEssays(): void {

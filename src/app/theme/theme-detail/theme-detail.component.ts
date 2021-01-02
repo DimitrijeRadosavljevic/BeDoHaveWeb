@@ -1,4 +1,7 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { ThemeService } from '../theme.service';
+import { Theme } from 'src/app/_shared/models/theme';
 
 @Component({
   selector: 'app-theme-detail',
@@ -7,9 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ThemeDetailComponent implements OnInit {
 
-  constructor() { }
+  public theme: Theme;
+  constructor(private route: ActivatedRoute, private themeService: ThemeService) { }
 
   ngOnInit(): void {
+    this.initializeComponent();
+  }
+
+  initializeComponent() {
+    
   }
 
 }

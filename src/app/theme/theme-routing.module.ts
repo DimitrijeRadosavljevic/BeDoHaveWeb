@@ -17,6 +17,10 @@ const routes: Routes = [
     component: ThemeEditorComponent
   },
   {
+    path: ':themeId/edit',
+    component: ThemeEditorComponent
+  },
+  {
     path: ':themeId',
     component: ThemeDetailComponent
   }

@@ -24,11 +24,11 @@ export class AuthEffects implements OnInitEffects {
       return this.authService.identify()
         .pipe(
           map(response => {
-            // this.router.navigate(['welcome']);
+            this.router.navigate(['welcome']);
             return AuthActions.loginSuccess({data: response.data});
           }),
           catchError((error) => {
-            // this.router.navigate(['/login']);
+            this.router.navigate(['/login']);
             return of(AuthActions.loginFailure({error}));
           })
         );

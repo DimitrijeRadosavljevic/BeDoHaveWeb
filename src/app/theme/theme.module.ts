@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule} from '@angular/forms';
 import { SharedModule } from '../_shared/shared.module';
 
 import { ThemeListComponent } from './theme-list/theme-list.component';
@@ -12,7 +13,8 @@ import { ThemeRoutingModule } from './theme-routing.module';
   declarations: [ThemeListComponent, ThemeEditorComponent, ThemeDetailComponent],
   imports: [
     SharedModule,
-    ThemeRoutingModule
+    ThemeRoutingModule,
+    FormsModule
   ]
 })
 export class ThemeModule { }

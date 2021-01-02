@@ -3,6 +3,7 @@ import {State} from '../../../store';
 import {select, Store} from '@ngrx/store';
 import {User} from '../../models/user';
 import {authUser} from '../../../store/auth/auth.selectors';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-welcome',
@@ -12,7 +13,7 @@ import {authUser} from '../../../store/auth/auth.selectors';
 export class WelcomeComponent implements OnInit {
   public user: User;
 
-  constructor(private store: Store<State>) { }
+  constructor(private store: Store<State>, private router: Router) { }
 
   ngOnInit(): void {
     this.initializeComponent();

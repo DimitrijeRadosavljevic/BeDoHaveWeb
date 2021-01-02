@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-welcome-card',
@@ -9,9 +10,11 @@ export class WelcomeCardComponent implements OnInit {
   @Input() text: string;
   @Input() color: string;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
+
+
 
 }

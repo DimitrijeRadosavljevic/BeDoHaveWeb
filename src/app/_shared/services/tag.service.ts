@@ -17,4 +17,8 @@ export class TagService extends BaseApiService {
 
     return this.http.get<ExpressResponse<Tag[]>>(`${this.apiUrl}/tags`, { params });
   }
+
+  public getTagsForTheme(themeId: string | null) :Observable<ExpressResponse<Tag[]>> {
+    return this.http.get<ExpressResponse<Tag[]>>(`${this.apiUrl}/tags/${themeId}`);
+  }
 }

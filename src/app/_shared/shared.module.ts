@@ -32,7 +32,6 @@ import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
     ReactiveFormsModule,
     NgxPaginationModule,
     NgMultiSelectDropDownModule,
-
     WelcomeComponent
   ]
 })
