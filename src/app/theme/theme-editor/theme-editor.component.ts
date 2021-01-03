@@ -23,7 +23,7 @@ export class ThemeEditorComponent implements OnInit {
   public tags: Tag[];
   public selectedTags: Tag[] = new Array();
   public useForCreate = true;
-  public themeForUpdate: Theme;
+  public themeForUpdate: Theme = new Theme();
   public textButton: string = "Create";
   public mainText: string = "Create Theme"
   public selectedItems: Tag[] = [];
@@ -52,11 +52,15 @@ export class ThemeEditorComponent implements OnInit {
   }
 
   private initializeComponent(): void {
-    this.getActivatedRoute();
-    this.buildFilter();
-    this.fetchTags();
-    if(this.useForCreate == true)
-      this.buildForm();
+
+      this.buildFilter();
+      this.fetchTags();
+      this.getActivatedRoute();
+      if(this.useForCreate)
+        this.buildForm();
+      else 
+        this.doForEdit();
+
   }
 
   private buildForm(theme?: Theme): void {
@@ -65,7 +69,8 @@ export class ThemeEditorComponent implements OnInit {
       title: [theme ? theme.title : null, Validators.required],
       description: [theme ? theme.description : null, Validators.required],
       date: [theme ? new Date(theme.date).getDate() : new Date().getDate(), Validators.required],
-      reminder: [theme ? theme.reminder : 'never', Validators.required]
+      reminder: [theme ? theme.reminder : 'never', Validators.required],
+      selectTags: [theme ? theme.tags : null ]
     });
     this.formActive = true;
   }
@@ -101,35 +106,37 @@ export class ThemeEditorComponent implements OnInit {
     let url = this.route.toString();
     if(url.includes('edit')) {
       this.useForCreate = false;
-      let themeId = this.route.snapshot.paramMap.get('themeId');
-
-      this.fetchTheme(themeId);
-      this.textButton = "Edit";
-      this.mainText = "Edit Theme"
     }
-    else this.useForCreate = true;
+  }
+
+  doForEdit() {
+      let themeId = this.route.snapshot.paramMap.get('themeId')
+      this.textButton = "Edit";
+      this.mainText = "Edit Theme";
+      this.fetchTheme(themeId);
+      this.fetchThemeTags(themeId);
+      this.buildForm(this.themeForUpdate)
   }
 
   fetchTheme(themeId:string | null) {
 
-    this.themeService.getTheme(themeId).subscribe(
-      result => {
-        this.themeForUpdate = result.data;
-        this.fetchTagsForTheme(themeId);
-        this.buildForm(this.themeForUpdate);
+    this.themeService.getTheme(themeId).subscribe({
+      next: result => {
+        this.themeForUpdate = result.data as Theme;
       },
-      error => { console.log(error) }
-    )
+      error: error => { console.log(error) }
+    })
   }
 
-  fetchTagsForTheme(themeId:string | null) {
+  fetchThemeTags(themeId:string | null) {
 
-    this.tagService.getTagsForTheme(themeId).subscribe(
-      result => {
-        this.selectedItems = result.data
+    this.tagService.getTagsForTheme(themeId).subscribe({
+      next: response => {
+        this.themeForUpdate.tags = response.data as Tag[]
+        console.log(this.themeForUpdate);
       },
-      error => { console.log(error) }
-    )
+      error: error => console.log(error)
+    })
   }
 
   private fetchTags(): void {

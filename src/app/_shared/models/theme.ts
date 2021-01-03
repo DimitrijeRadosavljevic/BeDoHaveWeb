@@ -6,5 +6,5 @@ export class Theme {
     description: string;
     date: Date;
     reminder: string;
-    tags: Tag[];
+    tags: Tag[] = [];
 }

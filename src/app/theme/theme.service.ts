@@ -19,12 +19,16 @@ export class ThemeService extends BaseApiService {
     return this.http.get<ExpressResponse<Theme[]>>(`${this.apiUrl}/themes`);
   }
 
-  public getThemesPaginate(perPage?: number | string, page?: number | string): Observable<ExpressResponse> {
+  public getThemesPaginate(perPage?: number | string, page?: number | string, title?:string, tags?:string): Observable<ExpressResponse> {
     let params = new HttpParams();
 
     params = (page ? params.set('page', page.toString()) : params);
 
     params = (perPage ? params.set('perPage', perPage.toString()) : params);
+
+    params = (title ? params.set('title', title.toString()): params);
+
+    params = (tags ? params.set('tags', tags.toString()): params);
 
     return this.http.get<ExpressResponse>(`${this.apiUrl}/themes`, { params });
   }

@@ -38,6 +38,7 @@
               <div class="row mb-4 flex-row align-items-end">
                 <div class="col-9">
                   <ng-multiselect-dropdown
+                    formControlName = "selectTags"
                     [data]="tags"
                     [settings]="tagDropdownSettings"
                     (onSelect)="tagSelected($event)"

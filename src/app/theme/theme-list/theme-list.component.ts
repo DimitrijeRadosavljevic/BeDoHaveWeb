@@ -1,10 +1,14 @@
-import { subscribeOn, tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, subscribeOn, tap } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { Theme } from 'src/app/_shared/models/theme';
 import { ThemeService } from '../theme.service';
 import {PaginatePipeArgs} from 'ngx-pagination/dist/paginate.pipe';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { Tag } from 'src/app/_shared/models/tag';
+import { TagService } from 'src/app/_shared/services/tag.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-theme-list',
@@ -21,14 +25,34 @@ export class ThemeListComponent implements OnInit {
   };
   public loading: number = 0;
   public themes: Theme[];
-  constructor(private themeService: ThemeService, private router: Router, private toastrService: ToastrService) { }
-  //[ngClass]="{'mt-5': i>2}"
+  public tagDropdownSettings: IDropdownSettings = {
+    singleSelection: false,
+    idField: 'id',
+    textField: 'name',
+    itemsShowLimit: 10,
+    allowSearchFilter: true,
+    limitSelection: 5
+  };
+  public selectedTags: Tag[] = new Array();
+  public tags: Tag[];
+  public tagNameFilter: FormControl;
+  public filterTitle: string | undefined;
+  public filterTags: string | undefined;
+  public themeForDelete: Theme;
+
+  constructor(private themeService: ThemeService,
+              private router: Router,
+              private toastrService: ToastrService,
+              private tagService: TagService) { }
   ngOnInit(): void {
     this.initializeComponent();
+
   }
 
   initializeComponent() {
       this.fetchThemesPaginate();
+      this.buildFilter();
+      this.fetchTags();
   }
 
   fetchThemes() {
@@ -40,6 +64,28 @@ export class ThemeListComponent implements OnInit {
     })
   }
 
+  private fetchTags(): void {
+    this.tagService.getTags(this.tagNameFilter.value).subscribe(
+      result => {
+        this.tags = result.data;
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  private buildFilter(): void {
+    this.tagNameFilter = new FormControl('');
+    this.tagNameFilter.valueChanges
+      .pipe(
+        debounceTime(200),
+        distinctUntilChanged())
+      .subscribe(value => {
+          this.fetchTags();
+      });
+  }
+
   public onPageChange($event: number): void {
     this.paginationConfig.currentPage = $event;
     this.fetchThemesPaginate();
@@ -47,7 +93,7 @@ export class ThemeListComponent implements OnInit {
 
   fetchThemesPaginate() {
     this.loading++;
-    this.themeService.getThemesPaginate( this.paginationConfig.itemsPerPage, this.paginationConfig.currentPage).subscribe(
+    this.themeService.getThemesPaginate( this.paginationConfig.itemsPerPage, this.paginationConfig.currentPage, this.filterTitle, this.filterTags).subscribe(
       result => {
         this.paginationConfig.totalItems = result.data.total;
         this.themes = result.data.themes as Theme[];
@@ -67,9 +113,15 @@ export class ThemeListComponent implements OnInit {
     this.router.navigate([`./themes/${theme.id}`])
   }
 
-  onDeleteTheme(theme: Theme) {
+  setThemeForDelete(theme:Theme) {
+    this.themeForDelete = theme;
+  }
+  onDeleteTheme() {
+    if(!this.themeForDelete)
+      return;
+    console.log(this.themeForDelete);
         this.loading++;
-        this.themeService.deleteTheme(theme.id).subscribe(
+        this.themeService.deleteTheme(this.themeForDelete.id).subscribe(
           response => {
             this.toastrService.success('Theme successfully deleted!');
             this.fetchThemesPaginate();
@@ -83,5 +135,29 @@ export class ThemeListComponent implements OnInit {
           },
           () => this.loading--
         );
+      }
+
+      public tagSelected($event: Tag): void {
+        this.selectedTags.push($event);
+      }
+    
+      public tagDeSelected($event: Tag): void {
+        this.selectedTags = this.selectedTags.filter(tag => tag.id !== $event.id);
+      }   
+      
+      filterThemes(titleSearch:string) {
+        if(this.selectedTags.length == 0 && titleSearch == ""){
+          this.filterTags = undefined;
+          this.filterTitle = undefined;
+          this.fetchThemesPaginate();
+        } else {
+          let tags:string = "";
+          this.selectedTags.forEach(tag => {
+            tags += tag.name;
+          });
+          this.filterTags = tags;
+          this.filterTitle = titleSearch;
+          this.fetchThemesPaginate();
+        }
       }
 }
