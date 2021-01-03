@@ -45,10 +45,11 @@ export class AuthEffects implements OnInitEffects {
             localStorage.setItem('token', response.token);
           };
           this.router.navigate(['/welcome']).then();
+          this.toastrService.success('You are successfully logged in!', 'Login');
           return AuthActions.loginSuccess({data: response.data});
         }),
         catchError((error) => {
-          this.toastrService.error('Wrong email or pasword', 'Login');
+          this.toastrService.error('Wrong email or password', 'Login');
           return of(AuthActions.loginFailure({error}));
         })
       ))
