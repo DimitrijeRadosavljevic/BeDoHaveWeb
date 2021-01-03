@@ -33,11 +33,17 @@ export class ThemeService extends BaseApiService {
     return this.http.get<ExpressResponse>(`${this.apiUrl}/themes`, { params });
   }
 
-  public getTheme(themeId: string | null) :Observable<ExpressResponse<Theme>> {
-    return this.http.get<ExpressResponse<Theme>>(`${this.apiUrl}/themes/${themeId}`);
+  public getTheme(themeId: string | null, tags:boolean) :Observable<ExpressResponse<Theme>> {
+    let params = new HttpParams();
+    params = (tags ? params.set('tags', tags.toString()): params);
+    return this.http.get<ExpressResponse<Theme>>(`${this.apiUrl}/themes/${themeId}`, { params });
   }
 
   public deleteTheme(themeId: string | null) :Observable<ExpressResponse<null>> {
     return this.http.delete<ExpressResponse<null>>(`${this.apiUrl}/themes/${themeId}`);
+  }
+
+  public getThemeWithEssays(themeId: string | null) :Observable<ExpressResponse<Theme>> {
+    return this.http.get<ExpressResponse<Theme>>(`${this.apiUrl}/themes/${themeId}`);
   }
 }

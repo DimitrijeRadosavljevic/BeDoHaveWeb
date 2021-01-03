@@ -33,7 +33,7 @@ export class ThemeDetailComponent implements OnInit {
   }
 
   fetchTheme(themeId: string | null) {
-    this.themeService.getTheme(themeId).subscribe(
+    this.themeService.getTheme(themeId, false).subscribe(
       response => {
         this.theme = response.data 
       },

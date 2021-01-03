@@ -27,6 +27,7 @@ export class ThemeEditorComponent implements OnInit {
   public textButton: string = "Create";
   public mainText: string = "Create Theme"
   public selectedItems: Tag[] = [];
+  public themeId: string | null;
 
   public loading: number = 0;
 
@@ -53,13 +54,25 @@ export class ThemeEditorComponent implements OnInit {
 
   private initializeComponent(): void {
 
-      this.buildFilter();
-      this.fetchTags();
-      this.getActivatedRoute();
-      if(this.useForCreate)
+    this.buildFilter();
+    this.fetchTags();
+    this.route.paramMap.subscribe(params => {
+      // @ts-ignore
+      if (params.has('themeId')) {
+        this.themeId = params.get('themeId');
+        this.fetchTheme(this.themeId, true);
+      }
+      else {
         this.buildForm();
-      else 
-        this.doForEdit();
+      }
+    });
+      // this.buildFilter();
+      // this.fetchTags();
+      // this.getActivatedRoute();
+      // if(this.useForCreate)
+      //   this.buildForm();
+      // else 
+      //   this.doForEdit();
 
   }
 
@@ -113,16 +126,17 @@ export class ThemeEditorComponent implements OnInit {
       let themeId = this.route.snapshot.paramMap.get('themeId')
       this.textButton = "Edit";
       this.mainText = "Edit Theme";
-      this.fetchTheme(themeId);
+      this.fetchTheme(themeId, true);
       this.fetchThemeTags(themeId);
       this.buildForm(this.themeForUpdate)
   }
 
-  fetchTheme(themeId:string | null) {
+  fetchTheme(themeId:string | null, tags: boolean) {
 
-    this.themeService.getTheme(themeId).subscribe({
+    this.themeService.getTheme(themeId, tags).subscribe({
       next: result => {
         this.themeForUpdate = result.data as Theme;
+        this.buildForm(result.data as Theme);
       },
       error: error => { console.log(error) }
     })
@@ -133,6 +147,7 @@ export class ThemeEditorComponent implements OnInit {
     this.tagService.getTagsForTheme(themeId).subscribe({
       next: response => {
         this.themeForUpdate.tags = response.data as Tag[]
+
         console.log(this.themeForUpdate);
       },
       error: error => console.log(error)
