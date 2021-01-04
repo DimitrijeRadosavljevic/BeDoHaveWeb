@@ -1,7 +1,8 @@
 <div class="container-fluid d-flex flex-column h-100">
   <nav class="navbar border-bottom">
-    <div class="container-fluid justify-content-center">
-      <span class="navbar-brand mb-0 h1">BeDoHave</span>
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 mr-auto ml-auto h1">BeDoHave</span>
+      <span class="float-right cursor-pointer" (click)="logout()" *ngIf="showLogout">Logout</span>
     </div>
   </nav>
 
@@ -11,7 +12,7 @@
 
   <nav class="navbar border-top margin-top-auto">
     <div class="container-fluid justify-content-center">
-      <p>Developed & designed by SabaliSoft @2020</p>
+      <p>Developed & designed by SabaliSoft @2021</p>
     </div>
   </nav>
 </div>
