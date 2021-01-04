@@ -14,7 +14,7 @@ export class ThemeService extends BaseApiService {
   public postTheme(theme: Theme): Observable<ExpressResponse<Theme>> {
     return this.http.post<ExpressResponse<Theme>>(`${this.apiUrl}/themes`, theme);
   }
-  
+
   public getThemes():Observable<ExpressResponse<Theme[]>> {
     return this.http.get<ExpressResponse<Theme[]>>(`${this.apiUrl}/themes`);
   }
@@ -45,5 +45,9 @@ export class ThemeService extends BaseApiService {
 
   public getThemeWithEssays(themeId: string | null) :Observable<ExpressResponse<Theme>> {
     return this.http.get<ExpressResponse<Theme>>(`${this.apiUrl}/themes/${themeId}`);
+  }
+
+  public getThemePublic(themeId: string): Observable<ExpressResponse<Theme>> {
+    return this.http.get<ExpressResponse<Theme>>(`${this.apiUrl}/themes/${themeId}/public`);
   }
 }

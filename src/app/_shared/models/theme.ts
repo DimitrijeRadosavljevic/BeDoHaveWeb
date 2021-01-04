@@ -10,4 +10,7 @@ export class Theme {
     tags: Tag[] = [];
 
     user: User;
+
+    likedByUser: boolean;
+    likersCount: number;
 }
