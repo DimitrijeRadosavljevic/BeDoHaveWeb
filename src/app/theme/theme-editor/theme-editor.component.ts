@@ -1,3 +1,4 @@
+import { authError } from './../../store/auth/auth.selectors';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,10 +23,7 @@ export class ThemeEditorComponent implements OnInit {
   public tagNameFilter: FormControl;
   public tags: Tag[];
   public selectedTags: Tag[] = new Array();
-  public useForCreate = true;
   public themeForUpdate: Theme = new Theme();
-  public textButton: string = "Create";
-  public mainText: string = "Create Theme"
   public selectedItems: Tag[] = [];
   public themeId: string | null;
 
@@ -66,14 +64,6 @@ export class ThemeEditorComponent implements OnInit {
         this.buildForm();
       }
     });
-      // this.buildFilter();
-      // this.fetchTags();
-      // this.getActivatedRoute();
-      // if(this.useForCreate)
-      //   this.buildForm();
-      // else 
-      //   this.doForEdit();
-
   }
 
   private buildForm(theme?: Theme): void {
@@ -81,7 +71,8 @@ export class ThemeEditorComponent implements OnInit {
       id: [theme ? theme.id : null],
       title: [theme ? theme.title : null, Validators.required],
       description: [theme ? theme.description : null, Validators.required],
-      date: [theme ? new Date(theme.date).getDate() : new Date().getDate(), Validators.required],
+      //date: [theme ? new Date(theme.date).getDate() : new Date().getDate(), Validators.required],
+      date: [theme ? theme.date : new Date().getDate(), Validators.required],
       reminder: [theme ? theme.reminder : 'never', Validators.required],
       selectTags: [theme ? theme.tags : null ]
     });
@@ -91,10 +82,11 @@ export class ThemeEditorComponent implements OnInit {
   public onSubmit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      console.log("invalid")
       return;
     }
 
-    if(this.useForCreate == true) {
+    if(!this.themeId) {
 
       const theme: Theme = this.form.value as Theme;
       theme.tags = this.selectedTags;
@@ -115,22 +107,6 @@ export class ThemeEditorComponent implements OnInit {
     }
   }
 
-  getActivatedRoute() {
-    let url = this.route.toString();
-    if(url.includes('edit')) {
-      this.useForCreate = false;
-    }
-  }
-
-  doForEdit() {
-      let themeId = this.route.snapshot.paramMap.get('themeId')
-      this.textButton = "Edit";
-      this.mainText = "Edit Theme";
-      this.fetchTheme(themeId, true);
-      this.fetchThemeTags(themeId);
-      this.buildForm(this.themeForUpdate)
-  }
-
   fetchTheme(themeId:string | null, tags: boolean) {
 
     this.themeService.getTheme(themeId, tags).subscribe({
@@ -140,6 +116,11 @@ export class ThemeEditorComponent implements OnInit {
       },
       error: error => { console.log(error) }
     })
+  }
+
+  getMultiselectDropdown() {
+    let multiselectDropdown = document.getElementById('multiselectDropdown');
+    multiselectDropdown?.dataset
   }
 
   fetchThemeTags(themeId:string | null) {

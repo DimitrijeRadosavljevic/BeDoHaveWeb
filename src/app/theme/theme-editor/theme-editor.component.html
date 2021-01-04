@@ -5,7 +5,8 @@
 
         <div class="row mt-4">
           <div class="col-12 text-center">
-            <h1 class="d-inline">{{ mainText }}</h1>
+            <h1 class="d-inline" *ngIf="themeId">Edit theme</h1>
+            <h1 class="d-inline" *ngIf="!themeId">Create theme</h1>
           </div>
         </div>
 
@@ -39,11 +40,11 @@
                 <div class="col-9">
                   <ng-multiselect-dropdown
                     formControlName = "selectTags"
-                    [data]="tags"
                     [settings]="tagDropdownSettings"
                     (onSelect)="tagSelected($event)"
                     (onDeSelect)="tagDeSelected($event)"
                     placeholder="Tags"
+                    id="multiselectDropdown"
                   >
 
                   </ng-multiselect-dropdown>
@@ -80,7 +81,7 @@
 
               <div class="row mt-5">
                 <div class="col-6 text-right">
-                  <button type="submit" class="button bg-light">{{ textButton }}</button>
+                  <button type="submit" class="button bg-light"><span *ngIf="themeId">Edit</span> <span *ngIf="!themeId">Create</span></button>
                 </div>
                 <div class="col-6 text-left">
                   <button type="submit" class="button bg-light" routerLink="/themes">Back </button>
