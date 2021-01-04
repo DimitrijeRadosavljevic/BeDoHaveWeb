@@ -6,6 +6,7 @@ import {EssayService} from '../../essay/essay.service';
 import {LikeService} from '../../_shared/services/like.service';
 import {Theme} from '../../_shared/models/theme';
 import {ThemeService} from '../theme.service';
+import {PaginatePipeArgs} from 'ngx-pagination/dist/paginate.pipe';
 
 @Component({
   selector: 'app-theme-detail-public',
@@ -13,12 +14,21 @@ import {ThemeService} from '../theme.service';
   styleUrls: ['./theme-detail-public.component.scss']
 })
 export class ThemeDetailPublicComponent implements OnInit {
+  private themeId: string;
   public theme: Theme;
+  public essays: Essay[];
   public loading: number = 0;
+
+  public paginationConfig: PaginatePipeArgs = {
+    id: 'essays',
+    itemsPerPage: 10,
+    currentPage: 1
+  };
 
   constructor(private route: ActivatedRoute,
               private toastrService: ToastrService,
               private themeService: ThemeService,
+              private essayService: EssayService,
               private likeService: LikeService) { }
 
   ngOnInit(): void {
@@ -28,14 +38,15 @@ export class ThemeDetailPublicComponent implements OnInit {
   private initializeComponent(): void {
     this.route.paramMap.subscribe(params => {
       // @ts-ignore
-      const themeId: string = params.get('themeId');
-      this.fetchTheme(themeId);
+      this.themeId = params.get('themeId');
+      this.fetchTheme();
+      this.fetchEssays()
     });
   }
 
-  private fetchTheme(id: string): void {
+  private fetchTheme(): void {
     this.loading++;
-    this.themeService.getThemePublic(id).subscribe(
+    this.themeService.getThemePublic(this.themeId).subscribe(
       result => {
         this.theme = result.data;
       },
@@ -69,4 +80,22 @@ export class ThemeDetailPublicComponent implements OnInit {
         this.toastrService.error('Error occurred, try again later!');
       }
     );
-  }}
+  }
+
+  private fetchEssays(): void {
+    this.essayService.getEssaysPublic(this.themeId, this.paginationConfig.itemsPerPage, this.paginationConfig.currentPage).subscribe(
+      result => {
+        this.paginationConfig.totalItems = result.data.total;
+        this.essays = result.data.essays as Essay[];
+      },
+      error => {
+        console.log(error)
+      }
+    );
+  }
+
+  public onPageChange($event: number): void {
+    this.paginationConfig.currentPage = $event;
+    this.fetchEssays();
+  }
+}
