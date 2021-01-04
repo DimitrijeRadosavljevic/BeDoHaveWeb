@@ -26,6 +26,11 @@ export class EssayService extends BaseApiService {
     return this.http.get<ExpressResponse<Essay>>(`${this.apiUrl}/essays/${essayId}`);
   }
 
+  // fetch essay, with theme, user who owns theme and user who wrote essay
+  public getEssayDetail(essayId: string): Observable<ExpressResponse<Essay>> {
+    return this.http.get<ExpressResponse<Essay>>(`${this.apiUrl}/essays/${essayId}/detail`);
+  }
+
   public postEssay(themeId: string, essay: Essay): Observable<ExpressResponse<Essay>> {
     return this.http.post<ExpressResponse<Essay>>(`${this.apiUrl}/themes/${themeId}/essays`, essay);
   }

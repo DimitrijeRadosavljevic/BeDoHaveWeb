@@ -1,4 +1,5 @@
 import { Tag } from './tag';
+import {User} from './user';
 
 export class Theme {
     id: string;
@@ -7,4 +8,6 @@ export class Theme {
     date: Date;
     reminder: string;
     tags: Tag[] = [];
+
+    user: User;
 }

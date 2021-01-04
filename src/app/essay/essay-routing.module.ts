@@ -4,12 +4,16 @@ import {Routes, RouterModule} from '@angular/router';
 import {AuthGuard} from '../_shared/guards/auth.guard';
 
 import {EssayEditorComponent} from './essay-editor/essay-editor.component';
-import { EssayListComponent } from './essay-list/essay-list.component';
+import {EssayDetailComponent} from './essay-detail/essay-detail.component';
 
 const routes: Routes = [
   {
     path: 'create',
     component: EssayEditorComponent
+  },
+  {
+    path: ':essayId',
+    component: EssayDetailComponent
   },
   {
     path: ':essayId/edit',
