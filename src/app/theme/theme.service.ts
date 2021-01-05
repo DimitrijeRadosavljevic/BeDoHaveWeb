@@ -50,4 +50,8 @@ export class ThemeService extends BaseApiService {
   public getThemePublic(themeId: string): Observable<ExpressResponse<Theme>> {
     return this.http.get<ExpressResponse<Theme>>(`${this.apiUrl}/themes/${themeId}/public`);
   }
+
+  public putTheme(theme: Theme): Observable<ExpressResponse<Theme>> {
+    return this.http.put<ExpressResponse<Theme>>(`${this.apiUrl}/themes/${theme.id}`, theme);
+  }
 }

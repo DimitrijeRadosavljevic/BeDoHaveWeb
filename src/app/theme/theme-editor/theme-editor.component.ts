@@ -90,9 +90,10 @@ export class ThemeEditorComponent implements OnInit {
 
       const theme: Theme = this.form.value as Theme;
       theme.tags = this.selectedTags;
+      theme.scheduleAnswer = new Date();
 
       this.loading++;
-      this.themeService.postTheme(this.form.value as Theme).subscribe(
+      this.themeService.postTheme(theme).subscribe(
         result => {
           this.toastrService.success('Theme successfully created!');
           this.router.navigate([`/themes/${result.data.id}`]);
@@ -103,7 +104,20 @@ export class ThemeEditorComponent implements OnInit {
         () => this.loading--
       );
     } else {
-      //TODO for edit
+      const theme: Theme = this.form.value as Theme;
+      theme.tags = this.selectedTags;
+
+      this.loading++;
+      this.themeService.putTheme(theme).subscribe(
+        response => {
+          this.toastrService.success('Theme successfully updated!');
+          this.router.navigate([`/themes/${response.data.id}`]);
+        },
+        error => {
+          this.toastrService.error('Error has occured, try again later');
+        },
+        () => this.loading --
+      )
     }
   }
 
@@ -112,7 +126,9 @@ export class ThemeEditorComponent implements OnInit {
     this.themeService.getTheme(themeId, tags).subscribe({
       next: result => {
         this.themeForUpdate = result.data as Theme;
+        this.fetchTags();
         this.buildForm(result.data as Theme);
+        this.selectedTags = this.themeForUpdate.tags;
       },
       error: error => { console.log(error) }
     })
@@ -164,6 +180,7 @@ export class ThemeEditorComponent implements OnInit {
   }
 
   public tagDeSelected($event: Tag): void {
+    console.log("Deselected");
     this.selectedTags = this.selectedTags.filter(tag => tag.id !== $event.id);
   }
 }

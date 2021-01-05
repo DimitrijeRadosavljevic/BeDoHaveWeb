@@ -8,7 +8,7 @@ export class Theme {
     date: Date;
     reminder: string;
     tags: Tag[] = [];
-
+    scheduleAnswer: Date;
     user: User;
 
     likedByUser: boolean;

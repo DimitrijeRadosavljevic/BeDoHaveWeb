@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Tag } from 'src/app/_shared/models/tag';
 import { TagService } from 'src/app/_shared/services/tag.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-theme-list',
@@ -36,9 +36,10 @@ export class ThemeListComponent implements OnInit {
   public selectedTags: Tag[] = new Array();
   public tags: Tag[];
   public tagNameFilter: FormControl;
-  public filterTitle: string | undefined;
   public filterTags: string | undefined;
   public themeForDelete: Theme;
+  public titleFilter: string | undefined;
+  public passiveThemes: boolean = true;
 
   constructor(private themeService: ThemeService,
               private router: Router,
@@ -93,9 +94,10 @@ export class ThemeListComponent implements OnInit {
 
   fetchThemesPaginate() {
     this.loading++;
-    this.themeService.getThemesPaginate( this.paginationConfig.itemsPerPage, this.paginationConfig.currentPage, this.filterTitle, this.filterTags).subscribe(
+    this.themeService.getThemesPaginate( this.paginationConfig.itemsPerPage, this.paginationConfig.currentPage, this.titleFilter, this.filterTags).subscribe(
       result => {
         this.paginationConfig.totalItems = result.data.total;
+        this.themes = [];
         this.themes = result.data.themes as Theme[];
       },
       error => {
@@ -139,16 +141,23 @@ export class ThemeListComponent implements OnInit {
 
       public tagSelected($event: Tag): void {
         this.selectedTags.push($event);
+        this.filterThemes();
       }
     
       public tagDeSelected($event: Tag): void {
         this.selectedTags = this.selectedTags.filter(tag => tag.id !== $event.id);
-      }   
+        this.filterThemes();
+      }
+
+      public setTitleFilter(titleFilterValue: string) {
+        this.titleFilter = titleFilterValue;
+        this.filterThemes();
+      }
       
-      filterThemes(titleSearch:string) {
-        if(this.selectedTags.length == 0 && titleSearch == ""){
+      filterThemes() {
+        if(this.selectedTags.length == 0 && this.titleFilter == ""){
           this.filterTags = undefined;
-          this.filterTitle = undefined;
+          this.titleFilter = undefined;
           this.fetchThemesPaginate();
         } else {
           let tags:string = "";
@@ -156,7 +165,6 @@ export class ThemeListComponent implements OnInit {
             tags += tag.name;
           });
           this.filterTags = tags;
-          this.filterTitle = titleSearch;
           this.fetchThemesPaginate();
         }
       }
