@@ -4,7 +4,6 @@ import {Routes, RouterModule, PreloadAllModules} from '@angular/router';
 import {AuthGuard} from './_shared/guards/auth.guard';
 
 import {WelcomeComponent} from './_shared/components/welcome/welcome.component';
-import {EssayListComponent} from './essay/essay-list/essay-list.component';
 
 const routes: Routes = [
   {
@@ -19,6 +18,10 @@ const routes: Routes = [
   {
     path: 'themes/:themeId/essays',
     loadChildren: () => import('./essay/essay.module').then(m => m.EssayModule)
+  },
+  {
+    path: 'habits',
+    loadChildren: () => import('./habit/habit.module').then(m => m.HabitModule)
   },
   {
     path: '',
