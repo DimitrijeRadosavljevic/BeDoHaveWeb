@@ -22,8 +22,22 @@ export class EssayService extends BaseApiService {
     return this.http.get<ExpressResponse>(`${this.apiUrl}/themes/${themeId}/essays`, { params });
   }
 
+  public getEssaysPublic(themeId: string, perPage?: number | string, page?: number | string): Observable<ExpressResponse> {
+    let params = new HttpParams();
+
+    params = (page ? params.set('page', page.toString()) : params);
+    params = (perPage ? params.set('perPage', perPage.toString()) : params);
+
+    return this.http.get<ExpressResponse>(`${this.apiUrl}/themes/${themeId}/essays/public`, { params });
+  }
+
   public getEssay(essayId: string): Observable<ExpressResponse<Essay>> {
     return this.http.get<ExpressResponse<Essay>>(`${this.apiUrl}/essays/${essayId}`);
+  }
+
+  // fetch essay, with theme, user who owns theme and user who wrote essay
+  public getEssayDetail(essayId: string): Observable<ExpressResponse<Essay>> {
+    return this.http.get<ExpressResponse<Essay>>(`${this.apiUrl}/essays/${essayId}/detail`);
   }
 
   public postEssay(themeId: string, essay: Essay): Observable<ExpressResponse<Essay>> {

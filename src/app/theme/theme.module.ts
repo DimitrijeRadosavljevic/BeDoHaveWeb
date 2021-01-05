@@ -8,10 +8,11 @@ import { ThemeDetailComponent } from './theme-detail/theme-detail.component';
 
 import { ThemeRoutingModule } from './theme-routing.module';
 import { EssayModule } from '../essay/essay.module';
+import { ThemeDetailPublicComponent } from './theme-detail-public/theme-detail-public.component';
 
 
 @NgModule({
-  declarations: [ThemeListComponent, ThemeEditorComponent, ThemeDetailComponent],
+  declarations: [ThemeListComponent, ThemeEditorComponent, ThemeDetailComponent, ThemeDetailPublicComponent],
   imports: [
     SharedModule,
     ThemeRoutingModule,

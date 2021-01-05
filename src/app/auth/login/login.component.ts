@@ -28,8 +28,11 @@ export class LoginComponent implements OnInit {
 
   private buildForm(): void {
     this.form = this.formBuilder.group({
-      email: ['admin@admin.com', [Validators.required, Validators.email]],
-      password: ['admin', [Validators.required]]
+      email: ['admin@admin.com'],
+      password: ['admin']
+
+      // email: ['admin@admin.com', [Validators.required, Validators.email]],
+      // password: ['admin', [Validators.required]]
     });
     this.formActive = true;
   }

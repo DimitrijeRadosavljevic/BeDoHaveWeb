@@ -1,7 +1,7 @@
 <div class="container h-100">
   <div class="row mt-4" *ngIf="user">
     <div class="col-12 text-center">
-      <h1>Welcome back: {{ user.name }}</h1>
+      <h3>Welcome back {{ user.name }}</h3>
     </div>
   </div>
 
@@ -9,8 +9,16 @@
   <div class="row justify-content-around mt-5">
     <div class="col-4">
       <app-welcome-card
-        text="Diary"
-        color="bg-primary"
+        text="Public Writings"
+        color="bg-success"
+      >
+      </app-welcome-card>
+    </div>
+
+    <div class="col-4">
+      <app-welcome-card
+        text="Personal Diaries"
+        color="bg-warning"
         routerLink="/themes"
       >
       </app-welcome-card>
@@ -19,7 +27,7 @@
     <div class="col-4">
       <app-welcome-card
         text="Habits"
-        color="bg-success"
+        color="bg-danger"
       >
       </app-welcome-card>
     </div>

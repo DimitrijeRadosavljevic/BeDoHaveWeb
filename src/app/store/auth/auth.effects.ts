@@ -1,18 +1,17 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
 
-import { catchError, map, mergeMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import {catchError, map, mergeMap, tap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
-import { Action } from '@ngrx/store';
-import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import {Action} from '@ngrx/store';
+import {Actions, createEffect, ofType, OnInitEffects} from '@ngrx/effects';
 
-import { ToastrService } from 'ngx-toastr';
+import {ToastrService} from 'ngx-toastr';
 
-import { AuthService } from '../../auth/auth.service';
+import {AuthService} from '../../auth/auth.service';
 
 import * as AuthActions from './auth.actions';
-
 
 
 @Injectable()
@@ -43,7 +42,8 @@ export class AuthEffects implements OnInitEffects {
         map(response => {
           if (response.token != null) {
             localStorage.setItem('token', response.token);
-          };
+          }
+          ;
           this.router.navigate(['/welcome']).then();
           this.toastrService.success('You are successfully logged in!', 'Login');
           return AuthActions.loginSuccess({data: response.data});
@@ -61,7 +61,7 @@ export class AuthEffects implements OnInitEffects {
     mergeMap((action) => this.authService.register(action.data)
       .pipe(
         map(response => {
-          if(response.token != null){
+          if (response.token != null) {
             localStorage.setItem('token', response.token);
           }
           this.router.navigate(['/welcome']).then();
@@ -75,18 +75,12 @@ export class AuthEffects implements OnInitEffects {
 
   logout$ = createEffect(() => this.actions$.pipe(
     ofType(AuthActions.logout),
-    mergeMap(() => this.authService.logout()
-      .pipe(
-        map(() => {
-          // localStorage.removeItem('token');
-          return AuthActions.logoutSuccess();
-        }),
-        catchError(() => {
-          // localStorage.removeItem('token');
-          return of(AuthActions.logoutSuccess());
-        })
-      ))
-    )
+    map(() => {
+      localStorage.removeItem('token');
+      this.toastrService.success('You are successfully logged out!');
+      this.router.navigate(['/login']);
+      return AuthActions.logoutSuccess();
+    }))
   );
 
   constructor(
@@ -96,6 +90,7 @@ export class AuthEffects implements OnInitEffects {
     private toastrService: ToastrService) {
 
   }
+
   ngrxOnInitEffects(): Action {
     return AuthActions.authInit();
   }
