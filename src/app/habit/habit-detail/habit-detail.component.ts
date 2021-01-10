@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { Habit } from '../../_shared/models/habit';
 import { HabitService } from '../habit.service';
+import { FormBuilder } from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-habit-detail',
@@ -13,7 +15,10 @@ export class HabitDetailComponent implements OnInit {
   public habit: Habit;
   public loading: number = 0;
 
-  constructor(private route: ActivatedRoute,
+  constructor(private formBuilder: FormBuilder,
+              private route: ActivatedRoute,
+              private router: Router,
+              private toastrService: ToastrService,
               private habitService: HabitService) { }
 
   ngOnInit(): void {
@@ -38,5 +43,17 @@ export class HabitDetailComponent implements OnInit {
       },
       () => this.loading--
     );
+  }
+
+  public deleteHabit(): void {
+    this.habitService.deleteHabit(this.habitId).subscribe(
+      result => {
+        this.toastrService.success('Habit successfully removed!');
+        this.router.navigate(['/habits']);
+      },
+      error => {
+        this.toastrService.error('Error occurred, try again later!');
+      }
+    )
   }
 }

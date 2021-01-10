@@ -124,6 +124,5 @@ export class EssayEditorComponent implements OnInit {
       },
       () => this.loading--
     );
-
   }
 }

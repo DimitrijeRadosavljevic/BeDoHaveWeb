@@ -5,15 +5,54 @@
         <div class="row mt-5">
           <div class="col-12">
             <div class="card">
-              <div class="card-header">
-                <span class="h4">{{ habit.name }}</span>
-                <i class="bi bi-pencil-square float-right cursor-pointer" routerLink="/habits/{{habit.id}}/edit"></i>
+              <div class="card-header bg-danger text-white">
+                <div class="row">
+                  <div class="col-11">
+                    <h4>{{ habit.name }}</h4>
+                    <b *ngFor="let tag of habit.tags">&nbsp;&nbsp;#{{ tag.name }}</b>
+                    <b *ngIf="habit.frequency == 'daily'">&nbsp;&nbsp;#daily</b>
+                    <b *ngIf="habit.frequency == 'per-week'">&nbsp;&nbsp;#{{ habit.frequencySpecific }}
+                      -days-per-week</b>
+                    <b *ngIf="habit.frequency == 'per-month'">&nbsp;&nbsp;#{{ habit.frequencySpecific }}
+                      -days-per-month</b>
+                    <b>&nbsp;&nbsp;#start-date-{{ habit.date }}</b>
+                  </div>
+                  <div class="col-1 d-flex justify-content-end">
+                    <i class="bi bi-pencil-square cursor-pointer p-2" routerLink="/habits/{{habit.id}}/edit"></i>
+                    <i class="bi bi-trash cursor-pointer p-2" data-toggle="modal" data-target="#deleteModal"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="card-header" *ngIf="habit.description">
+                <p class="mb-0">{{ habit.description }}</p>
               </div>
               <div class="card-body">
+                <app-habit-record-list
+                  [habitId]="habitId"
+                ></app-habit-record-list>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete habit</h5>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this habit?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" (click)="deleteHabit()" data-dismiss="modal">Delete</button>
       </div>
     </div>
   </div>

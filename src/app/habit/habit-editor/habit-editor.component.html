@@ -18,6 +18,7 @@
         <div class="row mb-4">
           <div class="col-6">
             <input type="text"
+                   class="margin-top-auto"
                    [ngClass]="{'form-control': true, 'bg-transparent': true, 'is-invalid': form.controls.name.invalid && form.controls.name.touched}"
                    id="name"
                    formControlName="name"
@@ -26,6 +27,65 @@
             <div class="invalid-feedback">
               Name is required
             </div>
+          </div>
+
+          <div [ngClass]="{'col-6': form.get('frequency').value == 'daily', 'col-3': form.get('frequency').value != 'daily'}">
+            <label for="frequency">Frequency</label>
+            <select class="form-select w-100" id="frequency" formControlName="frequency">
+              <option value="daily">Daily</option>
+              <option value="specific-days">Specific days</option>
+              <option value="per-week"># Per week</option>
+              <option value="per-month"># Per month</option>
+            </select>
+          </div>
+          <div class="col-3" *ngIf="form.get('frequency').value == 'per-week' || form.get('frequency').value == 'per-month'">
+            <input
+              id="frequencySpecific"
+              type="number"
+              formControlName="frequencySpecific"
+              class="w-100"
+            >
+          </div>
+          <div class="col-3" *ngIf="form.get('frequency').value == 'specific-days'">
+            <div class="justify-content-between d-flex">
+              <span class="badge rounded-pill bg-success p-2 text-white cursor-pointer">M</span>
+              <span class="badge rounded-pill bg-success p-2 text-white cursor-pointer">T</span>
+              <span class="badge rounded-pill bg-success p-2 text-white cursor-pointer">W</span>
+              <span class="badge rounded-pill bg-success p-2 text-white cursor-pointer">T</span>
+              <span class="badge rounded-pill bg-success p-2 text-white cursor-pointer">F</span>
+              <span class="badge rounded-pill bg-success p-2 text-white cursor-pointer">S</span>
+              <span class="badge rounded-pill bg-success p-2 text-white cursor-pointer">S</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <ng-multiselect-dropdown
+              formControlName="selectedTags"
+              [settings]="tagDropdownSettings"
+              (onSelect)="tagSelected($event)"
+              (onDeSelect)="tagDeSelected($event)"
+              placeholder="Tags"
+              id="multiselectDropdown"
+              [data]="tags"
+            >
+
+            </ng-multiselect-dropdown>
+          </div>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-12">
+            <textarea
+              id="description"
+              type="text"
+              class="form-control"
+              rows="10"
+              formControlName="description"
+              placeholder="Description..."
+            >
+            </textarea>
           </div>
         </div>
 
