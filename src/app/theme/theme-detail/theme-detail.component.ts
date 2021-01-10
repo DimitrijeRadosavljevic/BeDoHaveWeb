@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ThemeService } from '../theme.service';
 import { Theme } from 'src/app/_shared/models/theme';
@@ -15,17 +15,18 @@ export class ThemeDetailComponent implements OnInit {
   theme: Theme = new Theme();
   tags: Tag[];
   public tagsText: string="";
-  constructor(private route: ActivatedRoute, private themeService: ThemeService, private tagService: TagService) { }
+  public themeId: string | null;
+  constructor(private route: ActivatedRoute, private themeService: ThemeService, private tagService: TagService, private router: Router) { }
 
   ngOnInit(): void {
     this.initializeComponent();
   }
 
   initializeComponent() {
-    const themeId = this.getActivatedRoute();
-    this.fetchTheme(themeId);
-    this.fetchTags(themeId);
-    this.fetchThemeTags(themeId);
+    this.themeId = this.getActivatedRoute();
+    this.fetchTheme(this.themeId);
+    this.fetchTags(this.themeId);
+    this.fetchThemeTags(this.themeId);
   }
 
   getActivatedRoute(): string | null{
@@ -59,6 +60,10 @@ export class ThemeDetailComponent implements OnInit {
         this.tags = response.data;
       }
     })
+  }
+
+  public goToCreateEssay() {
+    this.router.navigate([`themes/${this.themeId}/essays/create`]);
   }
 
 }

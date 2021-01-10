@@ -113,7 +113,7 @@ export class HabitRecordListComponent implements OnInit {
     this.formActive = true;
   }
 
-  private deleteRecord(): void {
+  public deleteRecord(): void {
     if (!this.recordToBeDeleted) {
       return;
     }

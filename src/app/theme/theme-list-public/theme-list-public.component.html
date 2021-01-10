@@ -1,0 +1,52 @@
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col-lg-4 d-flex align-items-baseline">
+            <h3 class="mb-0">
+                Public themes:
+            </h3>
+        </div>
+        <div class="col-lg-4 text-center d-flex align-items-center">
+            <ng-multiselect-dropdown
+                [settings]="tagDropdownSettings"
+                (onSelect)="tagSelected($event)"
+                (onDeSelect)="tagDeSelected($event)"
+                [data] = "tags"
+                placeholder="Filter by tags"
+                class="w-100"
+            >
+            </ng-multiselect-dropdown>
+        </div>
+        <div class="col-lg-4 text-center d-flex align-items-center mt-sm-2">
+            <input type="text" class="form-control w-100" id="titleFilter" aria-describedby="title" placeholder="Filter by title" [ngModel]="titleFilter" (ngModelChange)="setTitleFilter($event)"> 
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="row" *ngIf= "loading == 0 && publicThemes && publicThemes.length > 0">
+                <div class="col-lg-4" *ngFor = "let theme of publicThemes | paginate: paginationConfig" >
+                    <div class="card mt-5 btn">
+                        <div class="d-flex justify-content-between">
+                            Title: {{ theme.title }}
+                        </div>
+                        <div class="card-body" (click)="goToDetails(theme)">
+                            <h5 class="card-title">Creation date: {{ theme.date }}</h5>
+                            <p class="card-text">{{ theme.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12 text-center">
+                    <pagination-controls [id]="paginationConfig.id" (pageChange)="onPageChange($event)"></pagination-controls>
+                </div>
+            </div>
+            <p *ngIf="loading == 0 && publicThemes && publicThemes.length == 0" class="text-center">Don't have any themes yet</p>
+            <div class="row justify-content-center mt-5" *ngIf="loading > 0">
+                <div class="col-1">
+                    <div class="spinner-border text-primary" role="status"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

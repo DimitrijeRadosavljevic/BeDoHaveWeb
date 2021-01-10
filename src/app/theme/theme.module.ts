@@ -9,10 +9,11 @@ import { ThemeDetailComponent } from './theme-detail/theme-detail.component';
 import { ThemeRoutingModule } from './theme-routing.module';
 import { EssayModule } from '../essay/essay.module';
 import { ThemeDetailPublicComponent } from './theme-detail-public/theme-detail-public.component';
+import { ThemeListPublicComponent } from './theme-list-public/theme-list-public.component';
 
 
 @NgModule({
-  declarations: [ThemeListComponent, ThemeEditorComponent, ThemeDetailComponent, ThemeDetailPublicComponent],
+  declarations: [ThemeListComponent, ThemeEditorComponent, ThemeDetailComponent, ThemeDetailPublicComponent, ThemeListPublicComponent],
   imports: [
     SharedModule,
     ThemeRoutingModule,

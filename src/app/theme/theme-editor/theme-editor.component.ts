@@ -85,13 +85,11 @@ export class ThemeEditorComponent implements OnInit {
       console.log("invalid")
       return;
     }
-
+    const theme: Theme = this.form.value as Theme;
+    theme.tags = this.selectedTags;
     if(!this.themeId) {
 
-      const theme: Theme = this.form.value as Theme;
-      theme.tags = this.selectedTags;
-      theme.scheduleAnswer = new Date();
-
+      theme.scheduleAnswer = this.getDate(theme.reminder);
       this.loading++;
       this.themeService.postTheme(theme).subscribe(
         result => {
@@ -104,9 +102,11 @@ export class ThemeEditorComponent implements OnInit {
         () => this.loading--
       );
     } else {
-      const theme: Theme = this.form.value as Theme;
-      theme.tags = this.selectedTags;
-
+      if(this.themeForUpdate.reminder != theme.reminder) {
+        theme.scheduleAnswer = this.getDate(theme.reminder)
+      } else {
+        theme.scheduleAnswer = this.themeForUpdate.scheduleAnswer
+      }
       this.loading++;
       this.themeService.putTheme(theme).subscribe(
         response => {
@@ -144,8 +144,6 @@ export class ThemeEditorComponent implements OnInit {
     this.tagService.getTagsForTheme(themeId).subscribe({
       next: response => {
         this.themeForUpdate.tags = response.data as Tag[]
-
-        console.log(this.themeForUpdate);
       },
       error: error => console.log(error)
     })
@@ -182,5 +180,36 @@ export class ThemeEditorComponent implements OnInit {
   public tagDeSelected($event: Tag): void {
     console.log("Deselected");
     this.selectedTags = this.selectedTags.filter(tag => tag.id !== $event.id);
+  }
+
+  public getDate(reminder: string): string {
+    console.log(reminder);
+    let date = new Date();
+    switch(reminder) {
+      case 'daily':
+        date.setDate(date.getDate() + 1)
+        break;
+      case 'weekly':
+        date.setDate(date.getDate() + 7)
+        break;
+      case 'every-month':
+        date.setMonth(date.getMonth() + 1);
+        break;
+      case 'every-third-month':
+        date.setMonth(date.getMonth() + 3)
+        break;
+      case 'every-six-months':
+        date.setMonth(date.getMonth() + 6)                           
+        break;
+      case 'yearly':
+        date.setFullYear(date.getFullYear() + 1)                           
+        break;
+      default:
+       date = new Date();
+    }
+    let month = date.getMonth();
+    let finalMonth = month + 1;
+    let createdDate = date.getFullYear() + "-" + finalMonth + "-" + date.getDate()
+    return createdDate
   }
 }

@@ -23,9 +23,9 @@
         <div class="col-lg-3 text-center d-flex align-items-center mt-sm-2">
             <input type="text" class="form-control w-100" id="titleFilter" aria-describedby="title" placeholder="Filter by title" [ngModel]="titleFilter" (ngModelChange)="setTitleFilter($event)"> 
         </div>
-        <div class="col-lg-1 text-center d-flex align-items-center mt-sm-2 justify-content-center">
-            <div [ngStyle]="{'background-color': passiveThemes ? 'red' : 'white'}" class="rounded-circle" style="height: 1cm; width:1cm">
-                <i class="bi bi-clock rounded-circle"></i>
+        <div class="col-lg-1 text-center d-flex align-items-center mt-sm-2 justify-content-center" [ngStyle] = "{'border-bottom': filterOverdueThemesDate ? '2px solid black' : 'none'}">
+            <div [ngStyle]="{'background-color': overdueThemes ? 'red' : 'white'}" class="rounded-circle btn" style="height: 1cm; width:1cm" (click)="getFilteredOverdueThemes()" data-toggle="tooltip" data-placement="top" title="Overdue themes">
+                <i class="bi bi-clock rounded-circle text-center" [ngStyle] = "{ 'color': overdueThemes ? 'white' : 'black'}"></i>
             </div>
         </div>
     </div>
@@ -43,6 +43,10 @@
                                 <a class="btn btn-danger ml-2 " data-toggle="modal" data-target="#deleteModal" (click)="setThemeForDelete(theme)">
                                     <i class="bi bi-trash"></i>
                                 </a>
+                                <a class="btn btn-info ml-2 " (click)="publishTheme(theme)">
+                                    <i class="bi bi-cloud-download" *ngIf="theme.public"></i>
+                                    <i class="bi bi-cloud-upload" *ngIf="!theme.public"></i>
+                                </a>
                             </div>
                         </div>
                         <div class="card-body" (click)="goToDetails(theme)">
@@ -57,7 +61,7 @@
                     <pagination-controls [id]="paginationConfig.id" (pageChange)="onPageChange($event)"></pagination-controls>
                 </div>
             </div>
-            <p *ngIf="loading == 0 && themes && themes.length == 0" class="text-center">You don't have any essays yet</p>
+            <p *ngIf="loading == 0 && themes && themes.length == 0" class="text-center">You don't have any themes yet</p>
             <div class="row justify-content-center mt-5" *ngIf="loading > 0">
                 <div class="col-1">
                     <div class="spinner-border text-primary" role="status"></div>
@@ -67,18 +71,18 @@
     </div>
 </div>
 
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true" *ngIf="themeForDelete">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Delete theme</h5>
         </div>
         <div class="modal-body">
-          Are you sure you want to delete this theme?
+          {{ themeForDelete.public ? 'First unpublish theme' : 'Are you sure you want to delete this theme?'}}
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-danger" (click)="onDeleteTheme()" data-dismiss="modal">Delete</button>
+          <button type="button" class="btn btn-danger" (click)="onDeleteTheme()" data-dismiss="modal" [disabled]="themeForDelete.public">Delete</button>
         </div>
       </div>
     </div>

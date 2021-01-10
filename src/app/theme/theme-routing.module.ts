@@ -1,3 +1,4 @@
+import { ThemeListPublicComponent } from './theme-list-public/theme-list-public.component';
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
@@ -28,6 +29,10 @@ const routes: Routes = [
   {
     path: ':themeId/public',
     component: ThemeDetailPublicComponent
+  },
+  {
+    path: 'public/themes',
+    component: ThemeListPublicComponent
   }
 ];
 

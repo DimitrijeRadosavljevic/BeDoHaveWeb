@@ -39,7 +39,8 @@ export class ThemeListComponent implements OnInit {
   public filterTags: string | undefined;
   public themeForDelete: Theme;
   public titleFilter: string | undefined;
-  public passiveThemes: boolean = true;
+  public overdueThemes: boolean = false;
+  public filterOverdueThemesDate: string | undefined;
 
   constructor(private themeService: ThemeService,
               private router: Router,
@@ -54,6 +55,7 @@ export class ThemeListComponent implements OnInit {
       this.fetchThemesPaginate();
       this.buildFilter();
       this.fetchTags();
+      this.getOverdueThemes(this.getCurrentDate());
   }
 
   fetchThemes() {
@@ -94,7 +96,7 @@ export class ThemeListComponent implements OnInit {
 
   fetchThemesPaginate() {
     this.loading++;
-    this.themeService.getThemesPaginate( this.paginationConfig.itemsPerPage, this.paginationConfig.currentPage, this.titleFilter, this.filterTags).subscribe(
+    this.themeService.getThemesPaginate( this.paginationConfig.itemsPerPage, this.paginationConfig.currentPage, this.titleFilter, this.filterTags, this.filterOverdueThemesDate).subscribe(
       result => {
         this.paginationConfig.totalItems = result.data.total;
         this.themes = [];
@@ -116,6 +118,7 @@ export class ThemeListComponent implements OnInit {
   }
 
   setThemeForDelete(theme:Theme) {
+    console.log(theme);
     this.themeForDelete = theme;
   }
   onDeleteTheme() {
@@ -168,4 +171,50 @@ export class ThemeListComponent implements OnInit {
           this.fetchThemesPaginate();
         }
       }
+
+      public getOverdueThemes(currentDate: string) {
+        this.themeService.getOverdueThemes(currentDate).subscribe(
+          response => {
+            this.overdueThemes = response.data;
+            console.log(response);
+          },
+          error => {
+            console.log(error);
+          }
+        )
+      }
+
+      public getCurrentDate(): string {
+        let date = new Date();
+        let month = date.getMonth() + 1;
+        return date.getFullYear() + "-" + month + "-" + date.getDate();
+        //return "2021-4-7";
+      }
+
+      public getFilteredOverdueThemes() {
+        if(this.filterOverdueThemesDate == undefined) {
+          this.filterOverdueThemesDate = this.getCurrentDate(); 
+        } else {
+          this.filterOverdueThemesDate = undefined;
+        }
+
+        this.fetchThemesPaginate();
+    }
+
+    public publishTheme(theme: Theme) {
+      if(!theme.public) {
+        theme.public = true;
+      } else {
+        theme.public = false;
+      }
+      this.themeService.publishTheme(theme).subscribe(
+        response => {
+            this.toastrService.success(`This theme is successfully ${(theme.public ? 'published' : 'unpublished')}`);
+            this.router.navigate(['/themes'])
+        },
+        error => {
+          this.toastrService.error('Some error ocured, try again later');
+        }
+      )
+    }
 }
