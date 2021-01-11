@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Essay} from '../../_shared/models/essay';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {EssayService} from '../../essay/essay.service';
 import {LikeService} from '../../_shared/services/like.service';
@@ -29,7 +29,8 @@ export class ThemeDetailPublicComponent implements OnInit {
               private toastrService: ToastrService,
               private themeService: ThemeService,
               private essayService: EssayService,
-              private likeService: LikeService) { }
+              private likeService: LikeService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.initializeComponent();
@@ -97,5 +98,9 @@ export class ThemeDetailPublicComponent implements OnInit {
   public onPageChange($event: number): void {
     this.paginationConfig.currentPage = $event;
     this.fetchEssays();
+  }
+
+  public goToCreateEssay() {
+    this.router.navigate([`themes/${this.themeId}/essays/public/create`]);
   }
 }

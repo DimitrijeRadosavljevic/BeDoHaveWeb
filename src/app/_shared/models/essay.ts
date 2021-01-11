@@ -12,4 +12,5 @@ export class Essay {
 
   likersCount: number;
   likedByUser: boolean;
+  ownedByUser: boolean;
 }

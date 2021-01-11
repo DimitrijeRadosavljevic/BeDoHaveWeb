@@ -63,4 +63,8 @@ export class EssayListComponent implements OnInit {
     this.paginationConfig.currentPage = $event;
     this.fetchEssays();
   }
+
+  public goToEssayDetails(essay: Essay) {
+    this.router.navigate([`themes/${this.themeId}/essays/${essay.id}`]);
+  }
 }

@@ -25,11 +25,11 @@
             <div class="row" *ngIf= "loading == 0 && publicThemes && publicThemes.length > 0">
                 <div class="col-lg-4" *ngFor = "let theme of publicThemes | paginate: paginationConfig" >
                     <div class="card mt-5 btn">
-                        <div class="d-flex justify-content-between">
-                            Title: {{ theme.title }}
+                        <div class="d-flex justify-content-between font-weight-bold">
+                            {{ theme.title }}
                         </div>
                         <div class="card-body" (click)="goToDetails(theme)">
-                            <h5 class="card-title">Creation date: {{ theme.date }}</h5>
+                            <p class="card-title border-bottom font-italic">{{ theme.date }}</p>
                             <p class="card-text">{{ theme.description }}</p>
                         </div>
                     </div>

@@ -34,7 +34,7 @@ export class ThemeListComponent implements OnInit {
     limitSelection: 5
   };
   public selectedTags: Tag[] = new Array();
-  public tags: Tag[];
+  public tags: Tag[] = [];
   public tagNameFilter: FormControl;
   public filterTags: string | undefined;
   public themeForDelete: Theme;

@@ -4,7 +4,7 @@
       <h2 class="pl-3 mb-3">Essays</h2>
       <ng-container *ngIf="loading == 0 && essays && essays.length > 0">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item" *ngFor="let essay of essays | paginate: paginationConfig">
+          <li class="list-group-item cursor-pointer" *ngFor="let essay of essays | paginate: paginationConfig" (click)="goToEssayDetails(essay)">
             <h4 class="mb-0 d-flex justify-content-between">
               {{ essay.title }}
               <span class="badge">{{ essay.date }}</span>

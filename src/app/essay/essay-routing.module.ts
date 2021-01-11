@@ -16,7 +16,21 @@ const routes: Routes = [
     component: EssayDetailComponent
   },
   {
+    path: ':essayId/public',
+    component: EssayDetailComponent
+  },
+  {
     path: ':essayId/edit',
+    canActivate: [AuthGuard],
+    component: EssayEditorComponent
+  },
+  {
+    path: ':essayId/edit/public',
+    canActivate: [AuthGuard],
+    component: EssayEditorComponent
+  },
+  {
+    path: 'public/create',
     canActivate: [AuthGuard],
     component: EssayEditorComponent
   }

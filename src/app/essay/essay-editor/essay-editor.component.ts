@@ -17,6 +17,7 @@ export class EssayEditorComponent implements OnInit {
   private essay: Essay;
   public form: FormGroup;
   public formActive: boolean = false;
+  public publicEssay: boolean;
 
   public loading: number = 0;
 
@@ -33,6 +34,7 @@ export class EssayEditorComponent implements OnInit {
   }
 
   private initializeComponent(): void {
+    this.publicEssay = this.route.toString().includes('public');
     this.route.paramMap.subscribe(params => {
       // @ts-ignore
       this.themeId = params.get('themeId');
@@ -80,7 +82,11 @@ export class EssayEditorComponent implements OnInit {
       this.essayService.postEssay(this.themeId, this.form.value as Essay).subscribe(
         result => {
           this.toastrService.success('Essay successfully written!');
-          this.router.navigate([`/themes/${this.themeId}/essays/${result.data.id}/edit`]);
+          if(this.publicEssay){
+            this.router.navigate([`/themes/${this.themeId}/essays/${result.data.id}/edit/public`]);
+          } else {
+            this.router.navigate([`/themes/${this.themeId}/essays/${result.data.id}/edit`]);
+          }
         },
         error => {
           this.toastrService.error('Error has occurred, try again later');
@@ -114,7 +120,11 @@ export class EssayEditorComponent implements OnInit {
     this.essayService.deleteEssay(this.essayId).subscribe(
       result => {
         this.toastrService.success('Essay successfully deleted!');
-        this.router.navigate([`/themes/${this.themeId}`]);
+        if(this.publicEssay) {
+          this.router.navigate([`/themes/${this.themeId}/public`]);
+        } else {
+          this.router.navigate([`/themes/${this.themeId}`])
+        }
       },
       error => {
         this.toastrService.error('Essay could not be deleted. Try again latter.');
@@ -124,5 +134,21 @@ export class EssayEditorComponent implements OnInit {
       },
       () => this.loading--
     );
+  }
+
+  public goBack() {
+    if(this.publicEssay) {
+      if(this.essayId) {
+        this.router.navigate([`themes/${this.themeId}/essays/${this.essayId}/public`]);
+      } else {
+        this.router.navigate([`themes/${this.themeId}/public`]);
+      }
+    } else {
+      if(this.essayId){
+        this.router.navigate([`themes/${this.themeId}/essays/${this.essayId}`]);
+      } else {
+        this.router.navigate([`themes/${this.themeId}`]);
+      }
+    }
   }
 }
