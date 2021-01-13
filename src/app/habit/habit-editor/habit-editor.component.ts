@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -62,12 +62,34 @@ export class HabitEditorComponent implements OnInit {
       id: [habit ? habit.id : null],
       name: [habit ? habit.name : null, Validators.required],
       description: [habit ? habit.description : null],
+      date: [habit ? habit.date : null, Validators.required],
       frequency: [habit ? habit.frequency : 'daily'],
       frequencySpecific: [habit ? habit.frequencySpecific : null],
       selectedTags: [habit ? habit.tags : []]
     });
 
+    this.subscribeToFrequencyChanges(this.form);
+
     this.formActive = true;
+  }
+
+  private subscribeToFrequencyChanges(form: FormGroup): void {
+    form.controls.frequency.valueChanges.subscribe(value => {
+      switch (value) {
+        case 'daily':
+          form.controls.frequencySpecific.setValue(null);
+          break;
+        case 'per-week':
+          form.controls.frequencySpecific.setValue(1);
+          break;
+        case 'per-month':
+          form.controls.frequencySpecific.setValue(1);
+          break;
+        case 'specific-days':
+          form.controls.frequencySpecific.setValue([1, 1, 1, 1, 1, 1, 1]);
+          break;
+      }
+    });
   }
 
   public onSubmit(): void {
@@ -75,7 +97,6 @@ export class HabitEditorComponent implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
-
 
     const habit: Habit = this.form.value as Habit;
     habit.tags = this.selectedTags;
@@ -163,5 +184,17 @@ export class HabitEditorComponent implements OnInit {
 
   public tagDeSelected($event: Tag): void {
     this.selectedTags = this.selectedTags.filter(tag => tag.id !== $event.id);
+  }
+
+  public setFrequencySpecific(value: Array<number>): void {
+    const frequencySpecific = this.form.controls.frequencySpecific.value as [];
+    const newValue = new Array<number>();
+    let i = 0;
+    for (i; i < 7; i++) {
+      // tslint:disable-next-line:no-bitwise
+      newValue.push(frequencySpecific[i] & value[i]);
+    }
+
+    this.form.controls.frequencySpecific.setValue(newValue);
   }
 }

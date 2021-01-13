@@ -9,6 +9,7 @@ import {WelcomeCardComponent} from './components/welcome-card/welcome-card.compo
 import {NgxPaginationModule} from 'ngx-pagination';
 import {RouterModule} from '@angular/router';
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
+import {MomentModule} from 'ngx-moment';
 
 
 @NgModule({
@@ -23,8 +24,8 @@ import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
     }),
     NgxPaginationModule,
     RouterModule,
-    NgMultiSelectDropDownModule.forRoot()
-
+    NgMultiSelectDropDownModule.forRoot(),
+    MomentModule
   ],
   exports: [
     CommonModule,
@@ -32,7 +33,8 @@ import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
     ReactiveFormsModule,
     NgxPaginationModule,
     NgMultiSelectDropDownModule,
-    WelcomeComponent
+    WelcomeComponent,
+    MomentModule
   ]
 })
 export class SharedModule {

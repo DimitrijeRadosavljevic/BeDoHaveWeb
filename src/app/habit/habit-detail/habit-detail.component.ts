@@ -46,6 +46,7 @@ export class HabitDetailComponent implements OnInit {
   }
 
   public deleteHabit(): void {
+    console.log('delete');
     this.habitService.deleteHabit(this.habitId).subscribe(
       result => {
         this.toastrService.success('Habit successfully removed!');
@@ -53,6 +54,19 @@ export class HabitDetailComponent implements OnInit {
       },
       error => {
         this.toastrService.error('Error occurred, try again later!');
+      }
+    )
+  }
+
+  public fetchStatistics(): void {
+    this.habitService.getHabitStatistics(this.habitId).subscribe(
+      result => {
+        this.habit.statistics = result.data;
+        this.toastrService.success('Statistics refreshed');
+      },
+      error => {
+        this.toastrService.error('Could not fetch habit statistics');
+        this.habit.statistics = null;
       }
     )
   }

@@ -43,18 +43,34 @@
               id="frequencySpecific"
               type="number"
               formControlName="frequencySpecific"
-              class="w-100"
+              class="w-100 form-control"
+              placeholder="#"
             >
           </div>
           <div class="col-3" *ngIf="form.get('frequency').value == 'specific-days'">
             <div class="justify-content-between d-flex">
-              <span class="badge rounded-pill bg-success p-2 text-white cursor-pointer">M</span>
-              <span class="badge rounded-pill bg-success p-2 text-white cursor-pointer">T</span>
-              <span class="badge rounded-pill bg-success p-2 text-white cursor-pointer">W</span>
-              <span class="badge rounded-pill bg-success p-2 text-white cursor-pointer">T</span>
-              <span class="badge rounded-pill bg-success p-2 text-white cursor-pointer">F</span>
-              <span class="badge rounded-pill bg-success p-2 text-white cursor-pointer">S</span>
-              <span class="badge rounded-pill bg-success p-2 text-white cursor-pointer">S</span>
+              <span class="badge rounded-pill p-2 text-white cursor-pointer" [ngClass]="{'bg-success': form.get('frequencySpecific').value[0] == 1, 'bg-secondary': form.get('frequencySpecific').value[0] == 0}" (click)="setFrequencySpecific([0, 1, 1, 1, 1, 1, 1])">M</span>
+              <span class="badge rounded-pill p-2 text-white cursor-pointer" [ngClass]="{'bg-success': form.get('frequencySpecific').value[1] == 1, 'bg-secondary': form.get('frequencySpecific').value[1] == 0}" (click)="setFrequencySpecific([1, 0, 1, 1, 1, 1, 1])">T</span>
+              <span class="badge rounded-pill p-2 text-white cursor-pointer" [ngClass]="{'bg-success': form.get('frequencySpecific').value[2] == 1, 'bg-secondary': form.get('frequencySpecific').value[2] == 0}" (click)="setFrequencySpecific([1, 1, 0, 1, 1, 1, 1])">W</span>
+              <span class="badge rounded-pill p-2 text-white cursor-pointer" [ngClass]="{'bg-success': form.get('frequencySpecific').value[3] == 1, 'bg-secondary': form.get('frequencySpecific').value[3] == 0}" (click)="setFrequencySpecific([1, 1, 1, 0, 1, 1, 1])">T</span>
+              <span class="badge rounded-pill p-2 text-white cursor-pointer" [ngClass]="{'bg-success': form.get('frequencySpecific').value[4] == 1, 'bg-secondary': form.get('frequencySpecific').value[4] == 0}" (click)="setFrequencySpecific([1, 1, 1, 1, 0, 1, 1])">F</span>
+              <span class="badge rounded-pill p-2 text-white cursor-pointer" [ngClass]="{'bg-success': form.get('frequencySpecific').value[5] == 1, 'bg-secondary': form.get('frequencySpecific').value[5] == 0}" (click)="setFrequencySpecific([1, 1, 1, 1, 1, 0, 1])">S</span>
+              <span class="badge rounded-pill p-2 text-white cursor-pointer" [ngClass]="{'bg-success': form.get('frequencySpecific').value[6] == 1, 'bg-secondary': form.get('frequencySpecific').value[6] == 0}" (click)="setFrequencySpecific([1, 1, 1, 1, 1, 1, 0])">S</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-6">
+            <label for="date">Start date</label>
+            <input
+              type="date"
+              id="date"
+              [ngClass]="{'form-control': true, 'bg-transparent': true, 'is-invalid': form.controls.date.invalid && form.controls.date.touched}"
+              formControlName="date"
+            >
+            <div class="invalid-feedback">
+              Date is required
             </div>
           </div>
         </div>

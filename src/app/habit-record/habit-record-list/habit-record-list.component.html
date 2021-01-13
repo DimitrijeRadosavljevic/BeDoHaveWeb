@@ -41,7 +41,7 @@
 </div>
 
 
-<div class="modal fade" id="addRecordModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="addRecordModal" tabindex="-1" aria-hidden="true" *ngIf="form">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -57,7 +57,7 @@
                 [ngClass]="{'form-control': true, 'bg-transparent': true, 'is-invalid': form.controls.date.invalid && form.controls.date.touched}"
                 formControlName="date">
               <div class="invalid-feedback">
-                Title is required
+                Date is required
               </div>
             </div>
             <div class="col-6">
@@ -84,7 +84,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="onSubmit()">Add</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="onSubmit()" [disabled]="form.invalid">Add</button>
       </div>
     </div>
   </div>

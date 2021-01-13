@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {PaginatePipeArgs} from 'ngx-pagination/dist/paginate.pipe';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HabitRecord} from '../../_shared/models/habit-record';
@@ -14,6 +14,8 @@ import {ToastrService} from 'ngx-toastr';
 export class HabitRecordListComponent implements OnInit {
   @Input() habitId: string;
   public habitsRecords: HabitRecord[] = [];
+
+  @Output() onFetchStatistics: EventEmitter<null> = new EventEmitter<null>();
 
   public paginator: any;
   public paginationConfig: PaginatePipeArgs = {
@@ -100,12 +102,14 @@ export class HabitRecordListComponent implements OnInit {
         }
       );
     }
+
+    this.onFetchStatistics.emit(null);
   }
 
   public buildForm(habitRecord?: HabitRecord): void {
     this.form = this.formBuilder.group({
       id: [habitRecord ? habitRecord.id : null],
-      date: [habitRecord ? habitRecord.date : new Date(), Validators.required],
+      date: [habitRecord ? habitRecord.date : null, Validators.required],
       comment: [habitRecord ? habitRecord.comment : ''],
       status: [habitRecord ? habitRecord.status : true, Validators.required]
     });
@@ -120,6 +124,7 @@ export class HabitRecordListComponent implements OnInit {
 
     this.habitRecordService.deleteHabitRecord(this.recordToBeDeleted).subscribe(
       result => {
+        this.onFetchStatistics.emit(null);
         this.toastrService.success('Record successfully deleted!');
         this.habitsRecords = this.habitsRecords.filter(record => record.id !== this.recordToBeDeleted);
         this.recordToBeDeleted = null;

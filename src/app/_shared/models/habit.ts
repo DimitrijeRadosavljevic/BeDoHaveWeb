@@ -6,7 +6,8 @@ export class Habit {
   description: string;
   date: Date;
   frequency: string;
-  frequencySpecific: number;
+  frequencySpecific: number | string;
+  statistics: number | null;
 
   tags: Tag[];
 }
