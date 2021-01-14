@@ -57,7 +57,6 @@ export class RegisterComponent implements OnInit {
         if(data) {
           this.errorText = data.error;
           this.error = true;
-          console.log(data.error);
         } else {
           this.error = false;
         }

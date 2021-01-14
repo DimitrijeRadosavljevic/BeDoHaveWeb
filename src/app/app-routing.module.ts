@@ -4,12 +4,17 @@ import {Routes, RouterModule, PreloadAllModules} from '@angular/router';
 import {AuthGuard} from './_shared/guards/auth.guard';
 
 import {WelcomeComponent} from './_shared/components/welcome/welcome.component';
+import { NotificationsComponent } from './_shared/components/notifications/notifications.component';
 
 const routes: Routes = [
   {
     path: 'welcome',
     canActivate: [AuthGuard],
     component: WelcomeComponent
+  },
+  {
+    path: 'welcome/notifications',
+    component: NotificationsComponent
   },
   {
     path: 'themes',

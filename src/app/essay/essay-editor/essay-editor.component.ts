@@ -82,7 +82,7 @@ export class EssayEditorComponent implements OnInit {
       this.essayService.postEssay(this.themeId, this.form.value as Essay).subscribe(
         result => {
           this.toastrService.success('Essay successfully written!');
-          if(this.publicEssay){
+          if(this.publicEssay) {
             this.router.navigate([`/themes/${this.themeId}/essays/${result.data.id}/edit/public`]);
           } else {
             this.router.navigate([`/themes/${this.themeId}/essays/${result.data.id}/edit`]);

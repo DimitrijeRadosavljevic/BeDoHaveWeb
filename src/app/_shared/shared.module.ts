@@ -9,10 +9,11 @@ import {WelcomeCardComponent} from './components/welcome-card/welcome-card.compo
 import {NgxPaginationModule} from 'ngx-pagination';
 import {RouterModule} from '@angular/router';
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 
 
 @NgModule({
-  declarations: [WelcomeComponent, WelcomeCardComponent],
+  declarations: [WelcomeComponent, WelcomeCardComponent, NotificationsComponent],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -32,7 +33,8 @@ import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
     ReactiveFormsModule,
     NgxPaginationModule,
     NgMultiSelectDropDownModule,
-    WelcomeComponent
+    WelcomeComponent,
+    NotificationsComponent
   ]
 })
 export class SharedModule {

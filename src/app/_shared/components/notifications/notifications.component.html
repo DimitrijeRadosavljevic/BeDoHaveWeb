@@ -1,0 +1,63 @@
+<div class="container">
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="row">
+            <div class="col-lg-10">
+                <h2 class="pl-3 mb-3">Notifications: {{ alreadySeen? 'seen' : 'new' }}</h2>
+            </div>
+            <div class="col-lg-2 text-right" >
+                <a class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" (click)="unsetNotificationForDelete()" *ngIf="alreadySeen && notifications && notifications.length > 0">
+                    <i class="bi bi-trash"></i> <span class="ml-2">All</span>
+                </a>
+            </div>
+        </div>
+        <ng-container *ngIf="loading == 0 && notifications && notifications.length > 0">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item cursor-pointer d-flex justify-content-between" *ngFor="let notification of notifications | paginate: paginationConfig">
+               <div>
+                    <h5 class="mb-0 d-flex justify-content-between">
+                        {{ notification.content }}
+                    </h5>
+                    <span class="badge">{{ notification.date }}</span>
+                </div>
+                <a class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" (click)="setNotificationForDelete(notification)" *ngIf="alreadySeen">
+                    <i class="bi bi-trash"></i>
+                </a>
+              </li>
+          </ul>
+          <div class="row mt-3">
+            <div class="col-12 text-center">
+              <pagination-controls [id]="paginationConfig.id" (pageChange)="onPageChange($event)"></pagination-controls>
+            </div>
+          </div>
+        </ng-container>
+        <p *ngIf="loading == 0 && notifications && notifications.length == 0" class="text-center">You don't have any notifications</p>
+        <div class="row justify-content-center mt-5" *ngIf="loading > 0">
+          <div class="col-1">
+            <div class="spinner-border text-primary" role="status"> </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12 text-right">
+          <button class="btn bg-light" routerLink = '/welcome'>Back</button>
+          <button class="btn btn-primary ml-2" (click)="getAllNotifications()">{{ alreadySeen? 'Only new' : 'See all'}}</button>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{ notificationForDelete? 'Delete notification' : 'Delete all notifications' }}</h5>
+        </div>
+        <div class="modal-body">
+         Are you shure you want to delete {{ notificationForDelete? ' this notification' : ' all notifications'}} ?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteNotifications()">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
