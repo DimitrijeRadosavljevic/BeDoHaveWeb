@@ -38,4 +38,8 @@ export class HabitService extends BaseApiService {
   public deleteHabit(habitId: string): Observable<ExpressResponse<null>> {
     return this.http.delete<ExpressResponse<null>>(`${this.apiUrl}/habits/${habitId}`);
   }
+
+  public getHabitStatistics(habitId: string): Observable<ExpressResponse<number>> {
+    return this.http.get<ExpressResponse<number>>(`${this.apiUrl}/habits/${habitId}/statistics`);
+  }
 }

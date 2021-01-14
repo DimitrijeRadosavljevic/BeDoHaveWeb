@@ -10,6 +10,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import {RouterModule} from '@angular/router';
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import {MomentModule} from 'ngx-moment';
 
 
 @NgModule({
@@ -24,8 +25,8 @@ import { NotificationsComponent } from './components/notifications/notifications
     }),
     NgxPaginationModule,
     RouterModule,
-    NgMultiSelectDropDownModule.forRoot()
-
+    NgMultiSelectDropDownModule.forRoot(),
+    MomentModule
   ],
   exports: [
     CommonModule,
@@ -34,7 +35,8 @@ import { NotificationsComponent } from './components/notifications/notifications
     NgxPaginationModule,
     NgMultiSelectDropDownModule,
     WelcomeComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    MomentModule
   ]
 })
 export class SharedModule {
