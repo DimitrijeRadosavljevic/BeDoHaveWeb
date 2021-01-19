@@ -46,7 +46,7 @@ export class HabitEditorComponent implements OnInit {
 
   private initializeComponent(): void {
     this.route.paramMap.subscribe(params => {
-      this.fetchTags();
+      this.fetchTags('');
       if (params.has('habitId')) {
         this.habitId = params.get('habitId');
         this.fetchHabit();
@@ -167,8 +167,8 @@ export class HabitEditorComponent implements OnInit {
 
   }
 
-  private fetchTags(): void {
-    this.tagService.getTags('').subscribe(
+  private fetchTags(filter: string): void {
+    this.tagService.getTags(filter).subscribe(
       result => {
         this.tags = result.data;
       },
@@ -196,5 +196,9 @@ export class HabitEditorComponent implements OnInit {
     }
 
     this.form.controls.frequencySpecific.setValue(newValue);
+  }
+
+  public getTags(filter: any): void {
+    this.fetchTags(filter);
   }
 }

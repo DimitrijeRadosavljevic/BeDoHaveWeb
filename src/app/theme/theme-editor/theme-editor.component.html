@@ -43,6 +43,7 @@
                     [settings]="tagDropdownSettings"
                     (onSelect)="tagSelected($event)"
                     (onDeSelect)="tagDeSelected($event)"
+                    (onFilterChange)="getTags($event)"
                     placeholder="Tags"
                     id="multiselectDropdown"
                     [data]="tags"
