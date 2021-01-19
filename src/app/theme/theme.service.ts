@@ -67,7 +67,7 @@ export class ThemeService extends BaseApiService {
     console.log(theme);
     return this.http.put<ExpressResponse<Theme>>(`${this.apiUrl}/themes/${theme.id}/public`, theme)
   }
-  
+
   public fetchPublicThemes(perPage?: number | string, page?: number | string, title?:string, tags?:string): Observable<ExpressResponse> {
     let params = new HttpParams();
     params = (page ? params.set('page', page.toString()) : params);
@@ -83,5 +83,12 @@ export class ThemeService extends BaseApiService {
 
   public patchTheme(themeId: string, scheduleAnswer: string): Observable<ExpressResponse<Theme>> {
     return this.http.patch<ExpressResponse<Theme>>(`${this.apiUrl}/themes/${themeId}`, { scheduleAnswer });
+  public fetchThemesPersonalized(perPage?: string | number, page?: string | number): Observable<ExpressResponse> {
+    let params = new HttpParams();
+
+    params = (page ? params.set('page', page.toString()) : params);
+    params = (perPage ? params.set('perPage', perPage.toString()) : params);
+
+    return this.http.get<ExpressResponse>(`${this.apiUrl}/themes-personalized`, { params });
   }
 }

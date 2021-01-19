@@ -17,6 +17,7 @@
       <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="formActive">
         <div class="row mb-4">
           <div class="col-6">
+            <label for="name">Name</label>
             <input type="text"
                    class="margin-top-auto"
                    [ngClass]="{'form-control': true, 'bg-transparent': true, 'is-invalid': form.controls.name.invalid && form.controls.name.touched}"

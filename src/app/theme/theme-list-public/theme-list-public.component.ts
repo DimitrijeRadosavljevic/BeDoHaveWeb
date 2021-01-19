@@ -6,6 +6,7 @@ import { Tag } from 'src/app/_shared/models/tag';
 import { Theme } from 'src/app/_shared/models/theme';
 import { TagService } from 'src/app/_shared/services/tag.service';
 import { ThemeService } from '../theme.service';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-theme-list-public',
@@ -19,7 +20,7 @@ export class ThemeListPublicComponent implements OnInit {
     itemsPerPage: 6,
     currentPage: 1
   };
-  
+
   public tagDropdownSettings: IDropdownSettings = {
     singleSelection: false,
     idField: 'id',
@@ -35,6 +36,8 @@ export class ThemeListPublicComponent implements OnInit {
   public selectedTags: Tag[] = new Array();
   public tags: Tag [];
 
+  public personalized: FormControl;
+
   constructor(private themeService: ThemeService, private router: Router, private tagService: TagService) { }
 
   ngOnInit(): void {
@@ -42,24 +45,50 @@ export class ThemeListPublicComponent implements OnInit {
   }
 
   public initializeComponent() {
+    this.buildRecommendedFilter();
     this.fetchPublicThemes();
     this.fetchTags();
   }
 
+  private buildRecommendedFilter() {
+    this.personalized = new FormControl(false);
+    this.personalized.valueChanges.subscribe(value => {
+      // @ts-ignore
+      this.paginationConfig.currentPage = 1;
+      this.fetchPublicThemes();
+    });
+  }
+
   public fetchPublicThemes() {
     this.loading++;
-    this.themeService.fetchPublicThemes(this.paginationConfig.itemsPerPage, this.paginationConfig.currentPage, this.titleFilter, this.filterTags, ).subscribe(
-      response => {
-        this.paginationConfig.totalItems = response.data.total;
-        this.publicThemes = response.data.themes as Theme[]
-      },
-      error => {
-        this.router.navigate(['/error'])
-      },
-      () => {
-        this.loading--
-      }
-    )
+    if (!this.personalized.value) {
+      this.themeService.fetchPublicThemes(this.paginationConfig.itemsPerPage, this.paginationConfig.currentPage, this.titleFilter, this.filterTags, ).subscribe(
+        response => {
+          this.paginationConfig.totalItems = response.data.total;
+          this.publicThemes = response.data.themes as Theme[]
+        },
+        error => {
+          this.router.navigate(['/error'])
+        },
+        () => {
+          this.loading--;
+        }
+      );
+    }
+    else {
+      this.themeService.fetchThemesPersonalized(this.paginationConfig.itemsPerPage, this.paginationConfig.currentPage).subscribe(
+        response => {
+          this.paginationConfig.totalItems = response.data.total;
+          this.publicThemes = response.data.themes as Theme[];
+        },
+        error => {
+          this.router.navigate(['/error']);
+        },
+        () => {
+          this.loading--;
+        }
+      );
+    }
   }
 
   public tagSelected($event: Tag): void {
