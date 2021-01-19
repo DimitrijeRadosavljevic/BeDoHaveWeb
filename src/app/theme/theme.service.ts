@@ -83,6 +83,7 @@ export class ThemeService extends BaseApiService {
 
   public patchTheme(themeId: string, scheduleAnswer: string): Observable<ExpressResponse<Theme>> {
     return this.http.patch<ExpressResponse<Theme>>(`${this.apiUrl}/themes/${themeId}`, { scheduleAnswer });
+}
   public fetchThemesPersonalized(perPage?: string | number, page?: string | number): Observable<ExpressResponse> {
     let params = new HttpParams();
 
