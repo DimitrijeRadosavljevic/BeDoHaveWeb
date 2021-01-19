@@ -30,8 +30,8 @@ export class RegisterComponent implements OnInit {
 
   buildForm() {
     this.form = this.formBuilder.group({
-      email: ['admin@admin.com', [Validators.required, Validators.email]],
-      password: ['admin', [Validators.required]],
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, [Validators.required]],
       name: ['', [Validators.required]],
       surname: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]]
@@ -39,9 +39,9 @@ export class RegisterComponent implements OnInit {
 
     this.form.get('confirmPassword')?.valueChanges.subscribe(val => {
       if( this.form.get('confirmPassword')?.value != this.form.get('password')?.value) {
-        this.passwordNotMatch = true 
+        this.passwordNotMatch = true
       }
-      else 
+      else
         this.passwordNotMatch = false
     })
   }
