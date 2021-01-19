@@ -57,7 +57,7 @@ export class EssayEditorComponent implements OnInit {
       id: [essay ? essay.id : null],
       title: [essay ? essay.title : null, Validators.required],
       content: [essay ? essay.content : null, Validators.required],
-      date: [essay ? essay.date : new Date().getDate(), Validators.required]
+      date: [essay ? essay.date : null, Validators.required]
     });
 
     this.formActive = true;
@@ -198,10 +198,10 @@ export class EssayEditorComponent implements OnInit {
         date.setMonth(date.getMonth() + 3)
         break;
       case 'every-six-months':
-        date.setMonth(date.getMonth() + 6)                           
+        date.setMonth(date.getMonth() + 6)
         break;
       case 'yearly':
-        date.setFullYear(date.getFullYear() + 1)                           
+        date.setFullYear(date.getFullYear() + 1)
         break;
       default:
        date = new Date();

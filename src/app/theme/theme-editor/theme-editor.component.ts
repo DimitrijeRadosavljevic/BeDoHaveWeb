@@ -72,7 +72,7 @@ export class ThemeEditorComponent implements OnInit {
       title: [theme ? theme.title : null, Validators.required],
       description: [theme ? theme.description : null, Validators.required],
       //date: [theme ? new Date(theme.date).getDate() : new Date().getDate(), Validators.required],
-      date: [theme ? theme.date : new Date().getDate(), Validators.required],
+      date: [theme ? theme.date : null, Validators.required],
       reminder: [theme ? theme.reminder : 'never', Validators.required],
       selectTags: [theme ? theme.tags : null ]
     });
