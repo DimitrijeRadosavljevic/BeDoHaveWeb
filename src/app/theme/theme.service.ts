@@ -80,4 +80,8 @@ export class ThemeService extends BaseApiService {
 
     return this.http.get<ExpressResponse>(`${this.apiUrl}/themes/public/getPublicThemes`, { params });
   }
+
+  public patchTheme(themeId: string, scheduleAnswer: string): Observable<ExpressResponse<Theme>> {
+    return this.http.patch<ExpressResponse<Theme>>(`${this.apiUrl}/themes/${themeId}`, { scheduleAnswer });
+  }
 }

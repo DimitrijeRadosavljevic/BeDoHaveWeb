@@ -6,22 +6,22 @@
                 <h2 class="pl-3 mb-3">Notifications: {{ alreadySeen? 'seen' : 'new' }}</h2>
             </div>
             <div class="col-lg-2 text-right" >
-                <a class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" (click)="unsetNotificationForDelete()" *ngIf="alreadySeen && notifications && notifications.length > 0">
-                    <i class="bi bi-trash"></i> <span class="ml-2">All</span>
+                <a class="btn delete-button" data-toggle="modal" data-target="#deleteModal" (click)="unsetNotificationForDelete()" *ngIf="alreadySeen && notifications && notifications.length > 0">
+                    <i class="bi bi-trash text-danger"></i> <span class="ml-2">All</span>
                 </a>
             </div>
         </div>
         <ng-container *ngIf="loading == 0 && notifications && notifications.length > 0">
           <ul class="list-group list-group-flush">
-            <li class="list-group-item cursor-pointer d-flex justify-content-between" *ngFor="let notification of notifications | paginate: paginationConfig">
+            <li class="list-group-item d-flex justify-content-between" *ngFor="let notification of notifications | paginate: paginationConfig">
                <div>
                     <h5 class="mb-0 d-flex justify-content-between">
                         {{ notification.content }}
                     </h5>
                     <span class="badge">{{ notification.date }}</span>
                 </div>
-                <a class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" (click)="setNotificationForDelete(notification)" *ngIf="alreadySeen">
-                    <i class="bi bi-trash"></i>
+                <a class="btn delete-button mt-0 pt-0" data-toggle="modal" data-target="#deleteModal" (click)="setNotificationForDelete(notification)" *ngIf="alreadySeen">
+                    <i class="bi bi-trash text-danger"></i>
                 </a>
               </li>
           </ul>

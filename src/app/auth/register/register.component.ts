@@ -55,8 +55,10 @@ export class RegisterComponent implements OnInit {
     this.store.pipe(select(authError)).subscribe(
       data => {
         if(data) {
-          this.errorText = data.error;
-          this.error = true;
+          if(data.error) {
+            this.errorText = data.error;
+            this.error = true;
+          }
         } else {
           this.error = false;
         }

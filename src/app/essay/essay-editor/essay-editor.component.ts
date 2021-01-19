@@ -1,3 +1,4 @@
+import { ThemeEditorComponent } from './../../theme/theme-editor/theme-editor.component';
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {EssayService} from '../essay.service';
@@ -5,6 +6,7 @@ import {ToastrService} from 'ngx-toastr';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Essay} from '../../_shared/models/essay';
 import {ThemeService} from '../../theme/theme.service';
+import { Theme } from 'src/app/_shared/models/theme';
 
 @Component({
   selector: 'app-essay-editor',
@@ -18,6 +20,7 @@ export class EssayEditorComponent implements OnInit {
   public form: FormGroup;
   public formActive: boolean = false;
   public publicEssay: boolean;
+  public themeForUpdate: Theme;
 
   public loading: number = 0;
 
@@ -43,6 +46,7 @@ export class EssayEditorComponent implements OnInit {
         this.fetchEssay();
       }
       else {
+        this.fetchThemeForUpdate();
         this.buildForm();
       }
     });
@@ -53,7 +57,7 @@ export class EssayEditorComponent implements OnInit {
       id: [essay ? essay.id : null],
       title: [essay ? essay.title : null, Validators.required],
       content: [essay ? essay.content : null, Validators.required],
-      date: [essay ? new Date(essay.date).getDate() : new Date().getDate(), Validators.required]
+      date: [essay ? essay.date : new Date().getDate(), Validators.required]
     });
 
     this.formActive = true;
@@ -85,6 +89,7 @@ export class EssayEditorComponent implements OnInit {
           if(this.publicEssay) {
             this.router.navigate([`/themes/${this.themeId}/essays/${result.data.id}/edit/public`]);
           } else {
+            this.updateTheme();
             this.router.navigate([`/themes/${this.themeId}/essays/${result.data.id}/edit`]);
           }
         },
@@ -103,6 +108,7 @@ export class EssayEditorComponent implements OnInit {
     this.essayService.getEssay(this.essayId).subscribe(
       result => {
         this.buildForm(result.data as Essay);
+        this.essay = result.data as Essay;
       },
       error => {
         console.log(error);
@@ -136,6 +142,29 @@ export class EssayEditorComponent implements OnInit {
     );
   }
 
+  public fetchThemeForUpdate() {
+    this.themeService.getTheme(this.themeId, false).subscribe(
+      response => {
+        this.themeForUpdate = response.data;
+        console.log(this.themeForUpdate);
+      },
+      error => {
+        console.log("Theme for update is not feched");
+      }
+    )
+  }
+
+  public updateTheme() {
+    this.themeService.patchTheme(this.themeForUpdate.id, this.getDate(this.themeForUpdate.reminder)).subscribe(
+      response => {
+        //Some handle
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
   public goBack() {
     if(this.publicEssay) {
       if(this.essayId) {
@@ -150,5 +179,37 @@ export class EssayEditorComponent implements OnInit {
         this.router.navigate([`themes/${this.themeId}`]);
       }
     }
+  }
+
+  public getDate(reminder: string): string {
+    console.log(reminder);
+    let date = new Date();
+    switch(reminder) {
+      case 'daily':
+        date.setDate(date.getDate() + 1)
+        break;
+      case 'weekly':
+        date.setDate(date.getDate() + 7)
+        break;
+      case 'every-month':
+        date.setMonth(date.getMonth() + 1);
+        break;
+      case 'every-third-month':
+        date.setMonth(date.getMonth() + 3)
+        break;
+      case 'every-six-months':
+        date.setMonth(date.getMonth() + 6)                           
+        break;
+      case 'yearly':
+        date.setFullYear(date.getFullYear() + 1)                           
+        break;
+      default:
+       date = new Date();
+    }
+    let month = date.getMonth();
+    let finalMonth = month + 1;
+    let createdDate = date.getFullYear() + "-" + finalMonth + "-" + date.getDate()
+    console.log(createdDate);
+    return createdDate
   }
 }
