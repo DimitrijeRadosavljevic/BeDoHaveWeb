@@ -36,7 +36,7 @@
                          id="date"
                          formControlName="date">
                   <div class="invalid-feedback">
-                    Title is required
+                    Date is required
                   </div>
                 </div>
               </div>
@@ -45,7 +45,7 @@
                   <quill-editor
                     id="content"
                     formControlName="content"
-                    class="d-block"
+                    [ngClass]="{'d-block': true, 'is-invalid': form.controls.content.invalid && form.controls.content.touched}"
                     [styles]="{minHeight: '350px'}"
                     placeholder="Enter text here"
                   >

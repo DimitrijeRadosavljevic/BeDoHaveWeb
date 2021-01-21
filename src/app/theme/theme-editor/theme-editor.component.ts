@@ -52,8 +52,8 @@ export class ThemeEditorComponent implements OnInit {
 
   private initializeComponent(): void {
 
-    this.buildFilter();
-    this.fetchTags();
+    // this.buildFilter();
+    this.fetchTags('');
     this.route.paramMap.subscribe(params => {
       // @ts-ignore
       if (params.has('themeId')) {
@@ -72,7 +72,7 @@ export class ThemeEditorComponent implements OnInit {
       title: [theme ? theme.title : null, Validators.required],
       description: [theme ? theme.description : null, Validators.required],
       //date: [theme ? new Date(theme.date).getDate() : new Date().getDate(), Validators.required],
-      date: [theme ? theme.date : new Date().getDate(), Validators.required],
+      date: [theme ? theme.date : null, Validators.required],
       reminder: [theme ? theme.reminder : 'never', Validators.required],
       selectTags: [theme ? theme.tags : null ]
     });
@@ -126,7 +126,7 @@ export class ThemeEditorComponent implements OnInit {
     this.themeService.getTheme(themeId, tags).subscribe({
       next: result => {
         this.themeForUpdate = result.data as Theme;
-        this.fetchTags();
+        this.fetchTags('');
         this.buildForm(result.data as Theme);
         this.selectedTags = this.themeForUpdate.tags;
       },
@@ -149,8 +149,8 @@ export class ThemeEditorComponent implements OnInit {
     })
   }
 
-  private fetchTags(): void {
-    this.tagService.getTags(this.tagNameFilter.value).subscribe(
+  private fetchTags(filter: string): void {
+    this.tagService.getTags(filter).subscribe(
       result => {
         this.tags = result.data;
       },
@@ -162,16 +162,16 @@ export class ThemeEditorComponent implements OnInit {
 
 
 
-  private buildFilter(): void {
-    this.tagNameFilter = new FormControl('');
-    this.tagNameFilter.valueChanges
-      .pipe(
-        debounceTime(200),
-        distinctUntilChanged())
-      .subscribe(value => {
-          this.fetchTags();
-      });
-  }
+  // private buildFilter(): void {
+  //   this.tagNameFilter = new FormControl('');
+  //   this.tagNameFilter.valueChanges
+  //     .pipe(
+  //       debounceTime(200),
+  //       distinctUntilChanged())
+  //     .subscribe(value => {
+  //         this.fetchTags();
+  //     });
+  // }
 
   public tagSelected($event: Tag): void {
     this.selectedTags.push($event);
@@ -199,10 +199,10 @@ export class ThemeEditorComponent implements OnInit {
         date.setMonth(date.getMonth() + 3)
         break;
       case 'every-six-months':
-        date.setMonth(date.getMonth() + 6)                           
+        date.setMonth(date.getMonth() + 6)
         break;
       case 'yearly':
-        date.setFullYear(date.getFullYear() + 1)                           
+        date.setFullYear(date.getFullYear() + 1)
         break;
       default:
        date = new Date();
@@ -211,5 +211,9 @@ export class ThemeEditorComponent implements OnInit {
     let finalMonth = month + 1;
     let createdDate = date.getFullYear() + "-" + finalMonth + "-" + date.getDate()
     return createdDate
+  }
+
+  getTags(event: any) {
+    this.fetchTags(event as string);
   }
 }
