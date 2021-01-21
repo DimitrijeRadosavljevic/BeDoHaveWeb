@@ -53,7 +53,7 @@ export class EssayListComponent implements OnInit {
         this.essays = result.data.essays as Essay[];
       },
       error => {
-        this.router.navigate(['/error']);
+        // this.router.navigate(['/error']);
       },
       () => this.loading--
     );

@@ -42,7 +42,7 @@ export class HabitListComponent implements OnInit {
         this.habits = result.data.habits as Habit[];
       },
       error => {
-        this.router.navigate(['/error']);
+        // this.router.navigate(['/error']);
       },
       () => this.loading--
     );

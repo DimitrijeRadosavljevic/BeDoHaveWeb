@@ -53,7 +53,7 @@ export class HabitRecordListComponent implements OnInit {
         this.habitsRecords = result.data.habitRecords as HabitRecord[];
       },
       error => {
-        this.router.navigate(['/error']);
+        // this.router.navigate(['/error']);
       },
       () => this.loading--
     );
