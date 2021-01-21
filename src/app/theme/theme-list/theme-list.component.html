@@ -44,8 +44,8 @@
                                     <i class="bi bi-trash"></i>
                                 </a>
                                 <a class="btn btn-info ml-2 " (click)="publishTheme(theme)">
-                                    <i class="bi bi-cloud-download" *ngIf="theme.public"></i>
-                                    <i class="bi bi-cloud-upload" *ngIf="!theme.public"></i>
+                                    <i class="bi bi-cloud-download" *ngIf="theme.public" data-toggle="tooltip" data-placement="top" title="Unpuplish theme" ></i>
+                                    <i class="bi bi-cloud-upload" *ngIf="!theme.public" data-toggle="tooltip" data-placement="top" title="Publish theme"></i>
                                 </a>
                             </div>
                         </div>

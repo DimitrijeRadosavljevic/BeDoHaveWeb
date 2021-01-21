@@ -69,10 +69,9 @@ export class ThemeListPublicComponent implements OnInit {
         response => {
           this.paginationConfig.totalItems = response.data.total;
           this.publicThemes = response.data.themes as Theme[]
-          console.log(this.publicThemes);
         },
         error => {
-          this.router.navigate(['/error'])
+          //this.router.navigate(['/error'])
         },
         () => {
           this.loading--;
@@ -86,7 +85,7 @@ export class ThemeListPublicComponent implements OnInit {
           this.publicThemes = response.data.themes as Theme[];
         },
         error => {
-          this.router.navigate(['/error']);
+          //this.router.navigate(['/error']);
         },
         () => {
           this.loading--;
@@ -149,7 +148,6 @@ export class ThemeListPublicComponent implements OnInit {
     this.themeService.getNumberOfRandomThemes().subscribe(
       response => {
         this.numberOfRandomThemes = response.data;
-        console.log(response.data);
       }
     )
   }
@@ -159,7 +157,6 @@ export class ThemeListPublicComponent implements OnInit {
     this.themeService.getRandomTheme().subscribe(
       response => {
         this.randomTheme = response.data;
-        console.log(this.randomTheme);
       },
       error => {
         console.log(error)

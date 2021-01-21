@@ -103,7 +103,7 @@ export class ThemeListComponent implements OnInit {
         this.themes = result.data.themes as Theme[];
       },
       error => {
-        this.router.navigate(['/error']);
+        //this.router.navigate(['/error']);
       },
       () => this.loading--
     );
@@ -118,13 +118,11 @@ export class ThemeListComponent implements OnInit {
   }
 
   setThemeForDelete(theme:Theme) {
-    console.log(theme);
     this.themeForDelete = theme;
   }
   onDeleteTheme() {
     if(!this.themeForDelete)
       return;
-    console.log(this.themeForDelete);
         this.loading++;
         this.themeService.deleteTheme(this.themeForDelete.id).subscribe(
           response => {
@@ -134,8 +132,6 @@ export class ThemeListComponent implements OnInit {
           },
           error => {
             this.toastrService.error('Theme could not be deleted. Try again latter.');
-            console.log(error);
-            // TODO handle error
             // this.router.navigateByUrl(['/error']);
           },
           () => this.loading--
@@ -176,7 +172,6 @@ export class ThemeListComponent implements OnInit {
         this.themeService.getOverdueThemes(currentDate).subscribe(
           response => {
             this.overdueThemes = response.data;
-            console.log(response);
           },
           error => {
             console.log(error);
@@ -188,7 +183,6 @@ export class ThemeListComponent implements OnInit {
         let date = new Date();
         let month = date.getMonth() + 1;
         return date.getFullYear() + "-" + month + "-" + date.getDate();
-        //return "2021-4-7";
       }
 
       public getFilteredOverdueThemes() {

@@ -82,7 +82,6 @@ export class ThemeEditorComponent implements OnInit {
   public onSubmit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-      console.log("invalid")
       return;
     }
     const theme: Theme = this.form.value as Theme;
@@ -178,12 +177,10 @@ export class ThemeEditorComponent implements OnInit {
   }
 
   public tagDeSelected($event: Tag): void {
-    console.log("Deselected");
     this.selectedTags = this.selectedTags.filter(tag => tag.id !== $event.id);
   }
 
   public getDate(reminder: string): string {
-    console.log(reminder);
     let date = new Date();
     switch(reminder) {
       case 'daily':

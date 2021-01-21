@@ -45,7 +45,6 @@ export class WelcomeComponent implements OnInit {
               this.notification = true;
               this.ref.detectChanges();
               this.getNotifications();
-              console.log(this.notification);
             })
           }
           if(user) {

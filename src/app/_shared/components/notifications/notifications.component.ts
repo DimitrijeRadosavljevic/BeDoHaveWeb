@@ -43,7 +43,6 @@ export class NotificationsComponent implements OnInit {
       response => {
         this.paginationConfig.totalItems = response.data.total;
         this.notifications = response.data.notifications as Notification [];
-        console.log(response);
       },
       error => {
         this.router.navigate(['error'])
