@@ -1,3 +1,4 @@
+import { SubscribedThemeNotificationsComponent } from './_shared/components/subscribed-theme-notifications/subscribed-theme-notifications.component';
 import { NgModule } from '@angular/core';
 import {Routes, RouterModule, PreloadAllModules} from '@angular/router';
 
@@ -15,6 +16,10 @@ const routes: Routes = [
   {
     path: 'welcome/notifications',
     component: NotificationsComponent
+  },
+  {
+    path: 'welcome/subscribedThemeNotifications',
+    component: SubscribedThemeNotificationsComponent
   },
   {
     path: 'themes',

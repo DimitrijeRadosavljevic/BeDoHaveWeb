@@ -143,10 +143,9 @@ export class EssayEditorComponent implements OnInit {
   }
 
   public fetchThemeForUpdate() {
-    this.themeService.getTheme(this.themeId, false).subscribe(
+    this.themeService.getThemeSpecific(this.themeId).subscribe(
       response => {
         this.themeForUpdate = response.data;
-        console.log(this.themeForUpdate);
       },
       error => {
         console.log("Theme for update is not feched");

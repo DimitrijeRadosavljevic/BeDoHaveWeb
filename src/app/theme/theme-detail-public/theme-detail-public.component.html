@@ -13,6 +13,9 @@
                 <a class="btn btn-info ml-3" (click)="goToCreateEssay()" data-toggle="tooltip" data-placement="top" title="Add new essay">
                   <i class="bi bi-plus-square"></i>
                 </a>
+
+                <i class="bi bi-chat-right-dots h3 text-danger subscribe-on-theme ml-3 cursor-pointer" data-toggle="tooltip" data-placement="top" (click)="subscribeOnTheme(theme)" title="Subscribe on theme" *ngIf="!alreadySubscribed"></i>
+                <i class="bi bi-chat-right-dots-fill h3 text-danger subscribe-on-theme ml-3 cursor-pointer" data-toggle="tooltip" data-placement="top" (click)="unsubscribeFromTheme(theme)" title="Unsubscribe from theme" *ngIf="alreadySubscribed"></i>
               </div>
               <div class="card-body" *ngIf="loading == 0 && essays && essays.length > 0">
                 <ul class="list-group list-group-flush">

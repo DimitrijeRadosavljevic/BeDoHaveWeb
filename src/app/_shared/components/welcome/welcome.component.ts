@@ -1,3 +1,4 @@
+import { ThemeService } from 'src/app/theme/theme.service';
 import { NotificationService } from './../../services/notification.service';
 import { ApplicationRef, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {State} from '../../../store';
@@ -17,19 +18,22 @@ export class WelcomeComponent implements OnInit {
   public user: User;
   public notification: boolean;
   public subscribed: string | null = null;
+  public notificationsSubscribedThemes: boolean;
 
   constructor(private store: Store<State>, 
               private router: Router, 
               private webSocket: WebSocketService, 
               private toastrService: ToastrService,
               private notificationService: NotificationService,
-              private ref: ChangeDetectorRef) { }
+              private ref: ChangeDetectorRef,
+              private themeService: ThemeService) { }
 
   ngOnInit(): void {
     this.initializeComponent();
   }
 
   private initializeComponent(): void {
+    this.getNotificationsForSubscribedThemes();
     this.store.pipe(select(authUser))
       .subscribe(user => {
         this.user = user;
@@ -42,7 +46,6 @@ export class WelcomeComponent implements OnInit {
               this.ref.detectChanges();
               this.getNotifications();
               console.log(this.notification);
-              console.log(data);
             })
           }
           if(user) {
@@ -51,6 +54,7 @@ export class WelcomeComponent implements OnInit {
         }
       });
       this.getNotifications()
+      //this.getNotificationsForSubscribedThemes();
   }
 
   public getNotifications() {
@@ -69,5 +73,18 @@ export class WelcomeComponent implements OnInit {
   public goToNotifications() {
     this.notification = false;
     this.router.navigate(['welcome/notifications']);
+  }
+
+  public getNotificationsForSubscribedThemes() {
+    this.themeService.getNotificationsFromRedis().subscribe(
+      response => {
+        if(response.data.length > 0)
+          this.notificationsSubscribedThemes = true;
+      }
+    )
+  }
+
+  public goToThemeSubscribeNotifications() {
+    this.router.navigate(['welcome/subscribedThemeNotifications'])
   }
 }

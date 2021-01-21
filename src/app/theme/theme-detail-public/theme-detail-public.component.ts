@@ -18,6 +18,7 @@ export class ThemeDetailPublicComponent implements OnInit {
   public theme: Theme;
   public essays: Essay[];
   public loading: number = 0;
+  public alreadySubscribed: boolean;
 
   public paginationConfig: PaginatePipeArgs = {
     id: 'essays',
@@ -42,6 +43,7 @@ export class ThemeDetailPublicComponent implements OnInit {
       this.themeId = params.get('themeId');
       this.fetchTheme();
       this.fetchEssays()
+      this.checkIfSubscribed(this.themeId);
     });
   }
 
@@ -103,4 +105,41 @@ export class ThemeDetailPublicComponent implements OnInit {
   public goToCreateEssay() {
     this.router.navigate([`themes/${this.themeId}/essays/public/create`]);
   }
+
+  public subscribeOnTheme(theme: Theme) {
+    this.themeService.subscribeOnTheme(theme, undefined).subscribe(
+      response => {
+        this.checkIfSubscribed(theme.id);
+        this.toastrService.success("Successfully subscribed")
+      },
+      error => {
+        this.toastrService.error("Some error occured please try leater")
+      }
+    )
+  }
+
+  public unsubscribeFromTheme(theme: Theme) {
+    this.themeService.unsubscribeFromTheme(theme).subscribe(
+      response => {
+        this.checkIfSubscribed(theme.id);
+        this.toastrService.success("Successfully unsubscribed");
+      },
+      error => {
+        this.toastrService.error("Some error occured please try leater");
+      }
+    ) 
+  }
+
+  public checkIfSubscribed(themeId: string) {
+    const theme = new Theme();
+    this.themeService.subscribeOnTheme(theme, themeId).subscribe(
+      response => {
+        if(response.data == 1) {
+          this.alreadySubscribed = true;
+        } else {
+          this.alreadySubscribed = false;
+        }
+      }
+    ) 
+  } 
 }

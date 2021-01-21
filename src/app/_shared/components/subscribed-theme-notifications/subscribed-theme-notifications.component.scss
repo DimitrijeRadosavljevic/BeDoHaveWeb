@@ -1,0 +1,10 @@
+.notifications {
+    overflow-y: scroll;
+    overflow-wrap: break-word;
+    height: 600px;
+    width:100%;
+}
+
+.delete-button:hover{
+    box-shadow: 0 4px 2px -2px gray;
+}

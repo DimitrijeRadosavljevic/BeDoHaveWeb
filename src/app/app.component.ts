@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import { logout } from './store/auth/auth.actions';
 import { select, Store } from '@ngrx/store';
 import { State } from './store';
@@ -17,6 +17,10 @@ export class AppComponent implements OnInit {
   public showLogout: boolean = true;
   public user: User;
 
+  @HostListener("window:unload", ["event"]) unloadHandler(event: Event) {
+    localStorage.removeItem('subscribed');
+  }
+
   constructor(private store: Store<State>,
               private router: Router,
               private webSocket: WebSocketService) { }
@@ -31,10 +35,17 @@ export class AppComponent implements OnInit {
 
     //setTimeout( () => { this.initializeComponent() }, 1000);
 
-   setTimeout(() => {
-     this.webSocket.emit('povezano', "354");
-   }, 1000);
+  //  setTimeout(() => {
+  //    this.webSocket.emit('povezano', "354");
+  //  }, 1000);
   }
+
+  // ngOnDestroy(): void {
+  //   let channel = localStorage.getItem('subscribed');
+  //   localStorage.removeItem('subscribed');
+  //   this.webSocket.disconect(channel);
+  //   console.log("Destroj");
+  // }
 
   public logout(): void {
     let channel = localStorage.getItem('subscribed');
