@@ -11,10 +11,11 @@ import {RouterModule} from '@angular/router';
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import {MomentModule} from 'ngx-moment';
+import { SubscribedThemeNotificationsComponent } from './components/subscribed-theme-notifications/subscribed-theme-notifications.component';
 
 
 @NgModule({
-  declarations: [WelcomeComponent, WelcomeCardComponent, NotificationsComponent],
+  declarations: [WelcomeComponent, WelcomeCardComponent, NotificationsComponent, SubscribedThemeNotificationsComponent],
   imports: [
     CommonModule,
     HttpClientModule,

@@ -3,6 +3,8 @@
     <div class="col-lg-12 text-right h3">
         <i  *ngIf= "notification" class="bi bi-bell-fill text-danger notifications cursor-pointer" (click)="goToNotifications()" data-toggle="tooltip" data-placement="top" title="Notifications"></i>
         <i  *ngIf= "!notification" class="bi bi-bell text-danger notifications cursor-pointer" (click)="goToNotifications()" data-toggle="tooltip" data-placement="top" title="Notifications"></i>
+        <i  *ngIf= "notificationsSubscribedThemes" class="bi bi-chat-right-dots-fill ml-2 text-danger cursor-pointer " (click)="goToThemeSubscribeNotifications()" data-toggle="tooltip" data-placement="top" title="Subscribed themes"></i>
+        <i  *ngIf= "!notificationsSubscribedThemes" class="bi bi-chat-right-dots ml-2 text-danger cursor-pointer" (click)="goToThemeSubscribeNotifications()" data-toggle="tooltip" data-placement="top" title="Subscribed themes"></i>
     </div>
   </div>
   <div class="row mt-4" *ngIf="user">

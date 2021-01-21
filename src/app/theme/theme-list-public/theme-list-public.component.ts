@@ -35,6 +35,8 @@ export class ThemeListPublicComponent implements OnInit {
   public filterTags: string | undefined;
   public selectedTags: Tag[] = new Array();
   public tags: Tag [];
+  public numberOfRandomThemes: number = 0;
+  public randomTheme: Theme | undefined;
 
   public personalized: FormControl;
 
@@ -48,6 +50,7 @@ export class ThemeListPublicComponent implements OnInit {
     this.buildRecommendedFilter();
     this.fetchPublicThemes();
     this.fetchTags();
+    this.getNumberOfRandomThemes();
   }
 
   private buildRecommendedFilter() {
@@ -62,10 +65,11 @@ export class ThemeListPublicComponent implements OnInit {
   public fetchPublicThemes() {
     this.loading++;
     if (!this.personalized.value) {
-      this.themeService.fetchPublicThemes(this.paginationConfig.itemsPerPage, this.paginationConfig.currentPage, this.titleFilter, this.filterTags, ).subscribe(
+      this.themeService.fetchPublicThemes(this.paginationConfig.itemsPerPage, this.paginationConfig.currentPage, this.titleFilter, this.filterTags).subscribe(
         response => {
           this.paginationConfig.totalItems = response.data.total;
           this.publicThemes = response.data.themes as Theme[]
+          console.log(this.publicThemes);
         },
         error => {
           this.router.navigate(['/error'])
@@ -140,6 +144,56 @@ export class ThemeListPublicComponent implements OnInit {
   public goToDetails(theme: Theme) {
     this.router.navigate([`themes/${theme.id}/public`]);
   }
+
+  public getNumberOfRandomThemes() {
+    this.themeService.getNumberOfRandomThemes().subscribe(
+      response => {
+        this.numberOfRandomThemes = response.data;
+        console.log(response.data);
+      }
+    )
+  }
+
+  public getRandomTheme() {
+    this.loading++;
+    this.themeService.getRandomTheme().subscribe(
+      response => {
+        this.randomTheme = response.data;
+        console.log(this.randomTheme);
+      },
+      error => {
+        console.log(error)
+      },
+      () => {
+        this.loading--
+      }
+    )
+  }
+
+  public goToThemeDetail() {
+    this.router.navigate([`themes/${this.randomTheme?.id}/public`])
+    this.randomTheme = undefined;
+  }
+
+  public removeRandomTheme() {
+    this.randomTheme = undefined;
+  }
+
+  // public subscribeOnTheme(theme: Theme) {
+  //   this.themeService.subscribeOnTheme(theme, undefined).subscribe(
+  //     response => {
+  //       console.log("Subscribovano");
+  //     }
+  //   )
+  // }
+
+  // public unsubscribeFromTheme(theme: Theme) {
+  //   this.themeService.unsubscribeFromTheme(theme).subscribe(
+  //     response => {
+  //       console.log("Unsubscribovano");
+  //     }
+  //   ) 
+  // }
 
 
 }

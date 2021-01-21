@@ -4,10 +4,13 @@
     <label class="custom-control-label" for="customSwitch1">Recommended</label>
   </div>
   <div class="row mt-5">
-    <div class="col-lg-4 d-flex align-items-baseline">
+    <div class="col-lg-3 d-flex align-items-baseline">
       <h3 class="mb-0">
         Public themes:
       </h3>
+    </div>
+    <div class="col-lg-1 d-flex align-items-center">
+      <button type="button" class="btn btn-outline-info" [disabled]="numberOfRandomThemes == 0" (click)="getRandomTheme()" data-toggle="modal" data-target="#randomThemeModal">Random</button>
     </div>
     <div class="col-lg-4 text-center d-flex align-items-center" *ngIf="!personalized.value">
       <ng-multiselect-dropdown
@@ -55,4 +58,31 @@
     </div>
   </div>
 
+</div>
+
+<div class="modal fade" id="randomThemeModal" tabindex="-1" aria-hidden="true" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Random theme</h5>
+      </div>
+      <div class="modal-body">
+        <div class="card" *ngIf="randomTheme && loading == 0">
+          <div class="d-flex justify-content-between font-weight-bold ml-1">
+            {{ randomTheme.title }}
+          </div>
+          <div class="card-body">
+            <p class="card-title border-bottom font-italic text-center">{{ randomTheme.date }}</p>
+            <p class="card-text text-center">{{ randomTheme.description }}</p>
+          </div>
+        </div>
+        <div class="col-1" *ngIf="loading > 0 && !randomTheme">
+          <div class="spinner-border text-primary" role="status"></div>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal" (click)="removeRandomTheme()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="goToThemeDetail()" data-dismiss="modal" >See theme</button>
+      </div>
+    </div>
+  </div>
 </div>

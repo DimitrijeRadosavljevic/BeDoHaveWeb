@@ -92,4 +92,35 @@ export class ThemeService extends BaseApiService {
 
     return this.http.get<ExpressResponse>(`${this.apiUrl}/themes-personalized`, { params });
   }
+
+  public getRandomTheme(): Observable<ExpressResponse> {
+    return this.http.get<ExpressResponse>(`${this.apiUrl}/themes/public/randomTheme`);
+  }
+
+  public getNumberOfRandomThemes(): Observable<ExpressResponse> {
+    return this.http.get<ExpressResponse>(`${this.apiUrl}/themes/public/randomTheme/number`);
+  }
+
+  public subscribeOnTheme(theme: Theme, themeId: string | undefined): Observable<ExpressResponse> {
+    let params = new HttpParams();
+    params = (themeId ? params.set('themeId', themeId.toString()) : params);
+    return this.http.post<ExpressResponse>(`${this.apiUrl}/subscribe-on-theme`, theme, { params });
+  }
+
+  public unsubscribeFromTheme(theme: Theme): Observable<ExpressResponse> {
+    return this.http.post<ExpressResponse>(`${this.apiUrl}/unsubscribe-from-theme`, theme);
+  }
+
+  public getThemeSpecific(themeId: string) :Observable<ExpressResponse<Theme>> {
+    return this.http.get<ExpressResponse<Theme>>(`${this.apiUrl}/themes/${themeId}/specific`);
+  }
+
+  public getNotificationsFromRedis() :Observable<ExpressResponse> {
+    return this.http.get<ExpressResponse>(`${this.apiUrl}/notifications-redis`);
+  }
+
+  public deleteNotificationsFromSubscribedThemes():Observable<ExpressResponse> {
+    return this.http.delete<ExpressResponse>(`${this.apiUrl}/notifications-redis`);
+  }
+  
 }
