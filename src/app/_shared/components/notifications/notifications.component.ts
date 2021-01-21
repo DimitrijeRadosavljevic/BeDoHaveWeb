@@ -45,7 +45,7 @@ export class NotificationsComponent implements OnInit {
         this.notifications = response.data.notifications as Notification [];
       },
       error => {
-        this.router.navigate(['error'])
+        //this.router.navigate(['error'])
       },
       () => {
         this.loading--
